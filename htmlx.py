@@ -9,6 +9,7 @@ class Parser:
         self.lineno = 0
         self.nodelvl = 0
         self.nodes = []
+        self.latest_node = 0
 
         for i in range(0, 100):
             self.nodes.append(None)
@@ -37,8 +38,9 @@ class Parser:
         })
 
     def registerNode(self, indentlvl, element):
-
         if indentlvl < self.nodelvl:
+            self.nodes[self.latest_node] = None
+
             for i in range(99, indentlvl - 1, -1):
                 if self.nodes[i]:
                     print('{}</{}>'.format(
@@ -48,6 +50,7 @@ class Parser:
                     self.nodes[i] = None
 
         self.nodes[indentlvl] = element
+        self.latest_node = indentlvl
 
         print('{}<{}>'.format(
             ((' ' * SETTING_INDENT_SPACES) * indentlvl), element
