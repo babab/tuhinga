@@ -1,0 +1,16 @@
+html5
+  head
+    script
+  body
+    div.container
+      div.row
+        div.col-lg-6
+          h1 Titel 1
+        div.col-lg-6
+          h1 Titel 2
+          h2 Titel 3
+          p Some paragraph
+          p.small Some paragraph with a small class
+html5
+
+# vim: set expandtab ts=2 sw=2 sts=2:
