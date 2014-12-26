@@ -190,7 +190,7 @@ class Lexer:
 if __name__ == '__main__':
     p = Parser()
 
-    # p.file('testdocument.tuhinga')
+    # p.file('examples/dev-test.tuh')
     p.fileinput()
 
     lexer = Lexer(p)

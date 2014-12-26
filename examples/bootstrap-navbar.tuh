@@ -1,0 +1,27 @@
+html5
+  body
+    .navbar.navbar-inverse.navbar-fixed-top :role=navigation
+      #navbar.container
+        #navbar-header.navbar-header
+          button#nav-toggle.navbar-toggle :data-toggle=collapse :data-target=.navbar-collapse
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand :href=# Project name
+        .navbar-collapse.collapse
+          form#navbar-form.navbar-form.navbar-right :role=form
+            .form-group
+              input#email.form-control :type=email Email
+            .form-group
+              input#password.form-control :type=password Password
+            button.btn.btn-success :type=submit Sign in
+
+    .jumbotron
+      #jumbotron-container.container
+        h1 This is a header
+        p This is some content
+        p
+         a.btn.btn-primary.btn-lg :role=button Learn more
+
+; vim: set expandtab ts=2 sw=2 sts=2:
