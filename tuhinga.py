@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-SETTING_INDENT_SPACES = 2
+SETTING_INPUT_INDENT = 2
+SETTING_OUTPUT_INDENT = 2
 
 
 class Parser:
@@ -34,7 +35,7 @@ class Parser:
         Make sure to run close() after the last call to parseLine.'''
         self.lineno += 1
         indentlvl = int((len(line) - len(line.lstrip()))
-                        / SETTING_INDENT_SPACES)
+                        / SETTING_INPUT_INDENT)
         splitted = line.lstrip().split()
 
         # Skip empty lines and comment lines
@@ -110,13 +111,14 @@ class Lexer:
     def __init__(self, parser):
         n = 0
         for node in parser.nodes:
-            if node[0]:
-                self.handleStartTag(node[1])
-            else:
-                self.handleEndTag(node[1])
+            if node[0] == 1:
+                next_lvl = parser.nodes[n + 1][1]['indentlvl']
+                self.handleStartTag(data=node[1], next_lvl=next_lvl)
+            elif node[0] == 0:
+                self.handleEndTag(data=node[1])
             n += 1
 
-    def handleStartTag(self, data):
+    def handleStartTag(self, data, next_lvl):
         if data['element'] == 'html5':
             self.add(data['indentlvl'], '<!doctype html>\n<html>')
             return self
@@ -134,9 +136,16 @@ class Lexer:
         t += '>'
 
         if data['content']:
-            t += data['content']
+            # properly align content depending on children nodes
+            if data['indentlvl'] >= next_lvl:
+                t += data['content']
+            else:
+                t += '\n{}{}'.format(
+                    ((' ' * SETTING_OUTPUT_INDENT) * next_lvl), data['content']
+                )
 
-        if data['arguments'] or data['content']:
+        # close tag if node has no children nodes
+        if data['indentlvl'] >= next_lvl:
             t += '</{}>'.format(data['element'])
 
         self.add(data['indentlvl'], t)
@@ -149,7 +158,7 @@ class Lexer:
         self.add(data['indentlvl'], '</{}>'.format(data['element']))
 
     def add(self, indentlvl, contents):
-        self.output += ((' ' * SETTING_INDENT_SPACES)
+        self.output += ((' ' * SETTING_OUTPUT_INDENT)
                         * indentlvl) + contents + '\n'
 
 
