@@ -2,19 +2,21 @@ html5
   head
     script
   body
-    div.container
-      div.row
-        div.col-lg-6
+    #mainContent.container
+      .row
+        .col-lg-6
           h1 Titel 1
-        div.col-lg-6
+        .col-lg-6
           h1 Titel 2
           h2 Titel 3
           p Some paragraph
           p.small Some paragraph with a small class
-      div.row
-        div.col-lg-12
-          div.jumbotron A fancy jumbotron
+      .row
+        .col-lg-12
+          .jumbotron A fancy jumbotron
             p Some text
             small some smaller text
+    form#form.form
+      input :type=text This input has contents?
 
 # vim: set expandtab ts=2 sw=2 sts=2:

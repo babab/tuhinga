@@ -4,12 +4,14 @@ SETTING_INDENT_SPACES = 2
 
 
 class Parser:
-    def __init__(self):
-        '''Initialize some instance variables'''
-        self.data = []
+    def __init__(self, debug=False):
+        '''Handle args and initialize instance variables'''
+        self.debug = debug
+
         self.latest_node = 0
         self.lineno = 0
         self.nodelvl = 0
+        self.nodes = []
         self.parsed = []
 
         for i in range(0, 100):
@@ -27,19 +29,58 @@ class Parser:
         self.lineno += 1
         indentlvl = int((len(line) - len(line.lstrip()))
                         / SETTING_INDENT_SPACES)
-        content = line.lstrip().split()
+        splitted = line.lstrip().split()
 
         # Skip empty lines and comment lines
-        if not content or (indentlvl == 0 and content[0].startswith('#')):
+        if not splitted or (indentlvl == 0 and splitted[0].startswith('#')):
             return self
 
-        self._registerNode(indentlvl, content[0])
+        # parse element, id and classes
+        identifier = splitted[0]
+        _id = None
+        _class = []
 
-        self.data.append({
-            'line': self.lineno,
-            'indentlvl': indentlvl,
-            'content': content,
-        })
+        if '#' in identifier:
+            element = identifier[:identifier.find('#')]
+            if '.' in identifier:
+                _id = identifier[identifier.find('#'):identifier.find('.')]
+            else:
+                _id = identifier[identifier.find('#'):]
+        elif '.' in identifier:
+            element = identifier[:identifier.find('.')]
+            _class = identifier.split('.')[1:]
+        else:
+            element = identifier
+
+        if identifier.startswith('#') or identifier.startswith('.'):
+            element = 'div'
+
+        # parse content and arguments
+        remainder = splitted[1:]
+        content = []
+        args = []
+
+        for i in remainder:
+            if i.startswith(':'):
+                args.append(i)
+            else:
+                content.append(i)
+
+        data = {
+            # 'line': self.lineno,
+            # 'indentlvl': indentlvl,
+            # 'splitted': splitted,
+
+            'type': 'open',
+            'element': element,
+            'id': _id,
+            'class': _class,
+            'arguments': args,
+            'content': ' '.join(content),
+        }
+
+        # register node to handle the tree structure
+        self._registerNode(indentlvl, data)
         return self
 
     def close(self):
@@ -47,28 +88,30 @@ class Parser:
         self._closeNodes(0)
         return self
 
-    def _registerNode(self, indentlvl, element):
+    def _registerNode(self, indentlvl, data):
         if indentlvl < self.nodelvl:
             self._closeNodes(indentlvl)
 
-        self.parsed[indentlvl] = element
+        self.parsed[indentlvl] = data
         self.latest_node = indentlvl
 
-        print('{}<{}>'.format(
-            ((' ' * SETTING_INDENT_SPACES) * indentlvl), element
-        ))
+        if self.debug:
+            print('{}<{}>'.format(
+                ((' ' * SETTING_INDENT_SPACES) * indentlvl), data['element']
+            ))
         self.nodelvl = indentlvl
 
     def _closeNodes(self, indentlvl):
         self.parsed[self.latest_node] = None
         for i in range(99, indentlvl - 1, -1):
             if self.parsed[i]:
-                print('{}</{}>'.format(
-                    ((' ' * SETTING_INDENT_SPACES) * i),
-                    self.parsed[i]
-                ))
+                if self.debug:
+                    print('{}</{}>'.format(
+                        ((' ' * SETTING_INDENT_SPACES) * i),
+                        self.parsed[i]['element']
+                    ))
                 self.parsed[i] = None
 
 if __name__ == '__main__':
-    p = Parser()
+    p = Parser(debug=True)
     p.file('testdocument.tuhinga').close()
