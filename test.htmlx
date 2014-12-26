@@ -16,6 +16,5 @@ html5
           div.jumbotron A fancy jumbotron
             p Some text
             small some smaller text
-html5
 
 # vim: set expandtab ts=2 sw=2 sts=2:
