@@ -17,6 +17,8 @@ html5
             p Some text
             small some smaller text
     form#form.form
-      input :type=text This input has contents?
+      input :type=text :placeholder=Name
+      label I want to receive the newsletter
+        input :type=checkbox :checked=
 
 # vim: set expandtab ts=2 sw=2 sts=2:

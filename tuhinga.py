@@ -4,13 +4,11 @@ SETTING_INDENT_SPACES = 2
 
 
 class Parser:
-    def __init__(self, lexer):
+    def __init__(self):
         '''Handle args and initialize instance variables'''
-        self.lexer = lexer
-
         self.latest_indentlvl = 0
         self.lineno = 0
-        self.nodelvl = 0
+        self.current_indentlvl = 0
         self.nodes = []
         self.parsed = []
 
@@ -51,9 +49,9 @@ class Parser:
         if '#' in identifier:
             element = identifier[:identifier.find('#')]
             if '.' in identifier:
-                _id = identifier[identifier.find('#'):identifier.find('.')]
+                _id = identifier[identifier.find('#') + 1:identifier.find('.')]
             else:
-                _id = identifier[identifier.find('#'):]
+                _id = identifier[identifier.find('#') + 1:]
         elif '.' in identifier:
             element = identifier[:identifier.find('.')]
             _class = identifier.split('.')[1:]
@@ -70,7 +68,7 @@ class Parser:
 
         for i in remainder:
             if i.startswith(':'):
-                args.append(i)
+                args.append(i[1:])
             else:
                 content.append(i)
 
@@ -90,39 +88,65 @@ class Parser:
         return self
 
     def _registerNode(self, indentlvl, data):
-        if indentlvl < self.nodelvl:
+        if indentlvl < self.current_indentlvl:
             self._closeNodes(indentlvl)
 
         self.parsed[indentlvl] = data
         self.latest_indentlvl = indentlvl
-
-        if self.lexer:
-            self.lexer.handleStartTag(data)
-        self.nodelvl = indentlvl
+        self.nodes.append((1, data))
+        self.current_indentlvl = indentlvl
 
     def _closeNodes(self, indentlvl):
         self.parsed[self.latest_indentlvl] = None
         for i in range(99, indentlvl - 1, -1):
             if self.parsed[i]:
-                if self.lexer:
-                    self.lexer.handleEndTag(self.parsed[i])
+                self.nodes.append((0, self.parsed[i]))
                 self.parsed[i] = None
 
 
 class Lexer:
     output = ''
 
+    def __init__(self, parser):
+        n = 0
+        for node in parser.nodes:
+            if node[0]:
+                self.handleStartTag(node[1])
+            else:
+                self.handleEndTag(node[1])
+            n += 1
+
     def handleStartTag(self, data):
         if data['element'] == 'html5':
             self.add(data['indentlvl'], '<!doctype html>\n<html>')
-        else:
-            self.add(data['indentlvl'], '<{}>'.format(data['element']))
+            return self
+
+        t = '<' + data['element']
+        t += ' id="{}"'.format(data['id']) if data['id'] else ''
+
+        if data['class']:
+            t += ' class="{}'.format(' '.join(data['class']))
+
+        for a in data['arguments']:
+            arg = a.split('=')
+            t += ' {}="{}"'.format(arg[0], arg[1])
+
+        t += '>'
+
+        if data['content']:
+            t += data['content']
+
+        if data['arguments'] or data['content']:
+            t += '</{}>'.format(data['element'])
+
+        self.add(data['indentlvl'], t)
 
     def handleEndTag(self, data):
         if data['element'] == 'html5':
             self.add(data['indentlvl'], '</html>')
-        else:
-            self.add(data['indentlvl'], '</{}>'.format(data['element']))
+            return self
+
+        self.add(data['indentlvl'], '</{}>'.format(data['element']))
 
     def add(self, indentlvl, contents):
         self.output += ((' ' * SETTING_INDENT_SPACES)
@@ -130,7 +154,11 @@ class Lexer:
 
 
 if __name__ == '__main__':
-    lexer = Lexer()
-    p = Parser(lexer)
+    p = Parser()
     p.file('testdocument.tuhinga')
+
+    # for i in p.nodes:
+    #     print(i)
+
+    lexer = Lexer(p)
     print(lexer.output)
