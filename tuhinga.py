@@ -1,5 +1,21 @@
 #!/usr/bin/env python3
 
+# Copyright (c) 2014 Benjamin Althues <benjamin@babab.nl>
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+import fileinput
+
 SETTING_INPUT_INDENT = 2
 SETTING_OUTPUT_INDENT = 2
 
@@ -21,8 +37,13 @@ class Parser:
         with open(filename) as f:
             for line in f:
                 self.parseLine(line)
-        self.close()
-        return self
+        return self.close()
+
+    def fileinput(self):
+        '''Parse stdin or files with fileinput module'''
+        for line in fileinput.input():
+            self.parseLine(line)
+        return self.close()
 
     def close(self):
         '''Close all open nodes'''
@@ -39,7 +60,7 @@ class Parser:
         splitted = line.lstrip().split()
 
         # Skip empty lines and comment lines
-        if not splitted or (indentlvl == 0 and splitted[0].startswith('#')):
+        if not splitted or (indentlvl == 0 and splitted[0].startswith(';')):
             return self
 
         # parse element, id and classes
@@ -112,7 +133,11 @@ class Lexer:
         n = 0
         for node in parser.nodes:
             if node[0] == 1:
-                next_lvl = parser.nodes[n + 1][1]['indentlvl']
+                try:
+                    next_lvl = parser.nodes[n + 1][1]['indentlvl']
+                except IndexError:
+                    raise Exception('Markup Tree Error: parser did not '
+                                    'properly close all nodes')
                 self.handleStartTag(data=node[1], next_lvl=next_lvl)
             elif node[0] == 0:
                 self.handleEndTag(data=node[1])
@@ -164,10 +189,9 @@ class Lexer:
 
 if __name__ == '__main__':
     p = Parser()
-    p.file('testdocument.tuhinga')
 
-    # for i in p.nodes:
-    #     print(i)
+    # p.file('testdocument.tuhinga')
+    p.fileinput()
 
     lexer = Lexer(p)
     print(lexer.output)
