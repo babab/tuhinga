@@ -152,7 +152,7 @@ class Lexer:
         t += ' id="{}"'.format(data['id']) if data['id'] else ''
 
         if data['class']:
-            t += ' class="{}'.format(' '.join(data['class']))
+            t += ' class="{}"'.format(' '.join(data['class']))
 
         for a in data['arguments']:
             arg = a.split('=')
