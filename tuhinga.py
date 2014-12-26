@@ -71,4 +71,4 @@ class Parser:
 
 if __name__ == '__main__':
     p = Parser()
-    p.file('test.htmlx').close()
+    p.file('testdocument.tuhinga').close()
