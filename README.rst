@@ -1,7 +1,7 @@
-tuhinga
+Tuhinga
 ==============================================================================
 
-tuhinga is a minimalistic markup language that translates to XML/HTML.
+Tuhinga is a minimalistic markup language that translates to XML/HTML.
 
 license
 -------

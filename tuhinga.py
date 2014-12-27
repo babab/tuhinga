@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 # Copyright (c) 2014 Benjamin Althues <benjamin@babab.nl>
 #
@@ -272,7 +272,6 @@ def stdin():
 ## When invoked as script, read files or stdin ###############################
 
 if __name__ == '__main__':
-    # print(file('examples/dev-test.tuh'))
     try:
         print(stdin())
     except KeyboardInterrupt:
