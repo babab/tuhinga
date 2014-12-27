@@ -19,6 +19,18 @@ import fileinput
 SETTING_INPUT_INDENT = 2
 SETTING_OUTPUT_INDENT = 2
 
+mapper = {
+    'html5': {
+
+        'br': {'single': True, 'element': 'br', 'content': '-'},
+        'input': {'single': True, 'element': 'input', 'content': 'value'},
+        'meta': {'single': True, 'element': 'meta', 'content': 'content'},
+        'script-src': {'single': False, 'element': 'script', 'content': 'src'},
+
+    },
+}
+'''List of single tags and mapping of contents to arguments'''
+
 
 class Parser:
     def __init__(self):
@@ -126,10 +138,11 @@ class Parser:
                 self.parsed[i] = None
 
 
-class Lexer:
-    output = ''
-
+class LexerXML:
     def __init__(self, parser):
+        self.output = ''
+        self.doctype = 'html5'
+
         n = 0
         for node in parser.nodes:
             if node[0] == 1:
@@ -144,11 +157,20 @@ class Lexer:
             n += 1
 
     def handleStartTag(self, data, next_lvl):
-        if data['element'] == 'html5':
+        if data['element'] in mapper[self.doctype].keys():
+            element = mapper[self.doctype][data['element']]['element']
+            single = mapper[self.doctype][data['element']]['single']
+            content_dest = mapper[self.doctype][data['element']]['content']
+        else:
+            element = data['element']
+            single = False
+            content_dest = '>'
+
+        if element == 'html5':
             self.add(data['indentlvl'], '<!doctype html>\n<html>')
             return self
 
-        t = '<' + data['element']
+        t = '<' + element
         t += ' id="{}"'.format(data['id']) if data['id'] else ''
 
         if data['class']:
@@ -158,9 +180,13 @@ class Lexer:
             arg = a.split('=')
             t += ' {}="{}"'.format(arg[0], arg[1])
 
-        t += '>'
+        # Use content as argument according to mapping
+        if data['content'] and content_dest != '>' and content_dest != '-':
+            t += ' {}="{}"'.format(content_dest, data['content'])
 
-        if data['content']:
+        t += ' />' if single else '>'
+
+        if data['content'] and content_dest == '>':
             # properly align content depending on children nodes
             if data['indentlvl'] >= next_lvl:
                 t += data['content']
@@ -170,8 +196,9 @@ class Lexer:
                 )
 
         # close tag if node has no children nodes
-        if data['indentlvl'] >= next_lvl:
-            t += '</{}>'.format(data['element'])
+        if not single:
+            if data['indentlvl'] >= next_lvl:
+                t += '</{}>'.format(element)
 
         self.add(data['indentlvl'], t)
 
@@ -190,8 +217,8 @@ class Lexer:
 if __name__ == '__main__':
     p = Parser()
 
-    # p.file('examples/dev-test.tuh')
-    p.fileinput()
+    p.file('examples/dev-test.tuh')
+    # p.fileinput()
 
-    lexer = Lexer(p)
+    lexer = LexerXML(p)
     print(lexer.output)
