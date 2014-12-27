@@ -33,6 +33,8 @@ mapper = {
     'html5': {
 
         'br': {'single': True, 'element': 'br', 'content': '-'},
+        'css': {'single': True, 'element': 'link', 'content': 'href',
+                'extra': 'rel="stylesheet"'},
         'hr': {'single': True, 'element': 'hr', 'content': '-'},
         'input': {'single': True, 'element': 'input', 'content': 'value'},
         # js: alternative for script-src
@@ -191,14 +193,19 @@ class LexerXML:
             n += 1
 
     def _startNode(self, data, next_lvl):
+        # defaults, possibly overridden by mapping
+        element = data['element']
+        single = False
+        content_dest = '>'
+        extra_args = ''
+
         if data['element'] in mapper[self.doctype].keys():
+            # apply mapping
             element = mapper[self.doctype][data['element']]['element']
             single = mapper[self.doctype][data['element']]['single']
             content_dest = mapper[self.doctype][data['element']]['content']
-        else:
-            element = data['element']
-            single = False
-            content_dest = '>'
+            if 'extra' in mapper[self.doctype][data['element']]:
+                extra_args = mapper[self.doctype][data['element']]['extra']
 
         if element == 'html5':
             self._addOutput(
@@ -214,6 +221,8 @@ class LexerXML:
 
         if data['class']:
             t += ' class="{}"'.format(' '.join(data['class']))
+
+        t += ' {}'.format(extra_args) if extra_args else ''
 
         for a in data['arguments']:
             arg = a.split('=')
