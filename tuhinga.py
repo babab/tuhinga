@@ -102,7 +102,7 @@ class Parser:
         splitted = line.lstrip().split()
 
         # Skip empty lines and comment lines
-        if not splitted or (indentlvl == 0 and splitted[0].startswith(';')):
+        if not splitted or splitted[0].startswith(';'):
             return self
 
         # parse element, id and classes

@@ -6,6 +6,7 @@ html5
     script $(document).ready(function() {alert('Hi');});
   body
     #mainContent.container
+      ; first row
       .row
         .col-lg-6
           h1 Titel 1
@@ -15,6 +16,7 @@ html5
           h2 Titel 3
           p Some paragraph
           p.small Some paragraph with a small class
+      ; second row
       .row
         .col-lg-12
           .jumbotron A fancy jumbotron
