@@ -46,15 +46,21 @@ class Parser:
         for i in range(0, 100):
             self.parsed.append(None)
 
+    def string(self, string):
+        '''Parse a complete tuhinga document as string'''
+        for line in string.split('\n'):
+            self.parseLine(line)
+        return self.close()
+
     def file(self, filename):
-        '''Parse a file, this will simply call parseLine() for each line'''
+        '''Parse a complete tuhinga document by filename'''
         with open(filename) as f:
             for line in f:
                 self.parseLine(line)
         return self.close()
 
     def fileinput(self):
-        '''Parse stdin or files with fileinput module'''
+        '''Parse stdin or files with the fileinput module'''
         for line in fileinput.input():
             self.parseLine(line)
         return self.close()
@@ -172,7 +178,12 @@ class LexerXML:
             content_dest = '>'
 
         if element == 'html5':
-            self._addOutput(data['indentlvl'], '<!doctype html>\n<html>')
+            self._addOutput(
+                data['indentlvl'],
+                '<!doctype html>\n{}<html>'.format(
+                    ((' ' * SETTING_OUTPUT_INDENT) * data['indentlvl'])
+                )
+            )
             return self
 
         t = '<' + element
@@ -219,6 +230,11 @@ class LexerXML:
                         * indentlvl) + contents + '\n'
 
 
+def string(string):
+    '''Shortcut for parsing, lexing and mapping a document from a string'''
+    return LexerXML(Parser().string(string)).output
+
+
 def file(filelocation):
     '''Shortcut for parsing, lexing and mapping a document from file'''
     return LexerXML(Parser().file(filelocation)).output
@@ -230,4 +246,29 @@ def stdin():
 
 
 if __name__ == '__main__':
-    print(file('examples/dev-test.tuh'))
+    # print(file('examples/dev-test.tuh'))
+
+    contents = '''
+        html5
+          head
+            script-src script.js
+          body
+            .container
+              .row
+                h1 Row 1
+                .col-lg-4
+                  p Column 1
+                .col-lg-4
+                  p Column 2
+                .col-lg-4
+                  p Column 3
+              .row
+                h1 Row 2
+                .col-lg-4
+                  p Column 1
+                .col-lg-4
+                  p Column 2
+                .col-lg-4
+                  p Column 3
+    '''
+    print(string(contents))
