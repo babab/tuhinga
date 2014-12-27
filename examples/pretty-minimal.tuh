@@ -1,0 +1,23 @@
+; A pretty minimal example of a document with a form
+
+html5
+  head
+    meta :charset=utf-8
+    meta :name=viewport device-width, initial-scale=1.0
+    css http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css
+    js http://code.jquery.com/jquery-2.1.3.min.js
+    js /static/my_script.js
+    title Please fill out you name
+  body
+    #main.container
+      h1 Please fill out you name
+      .row
+        .col-lg-6
+          form.form
+            input.form-control :type=text :placeholder=Name John Doe
+            hr
+            input.form-control :type=submit Send name
+        .col-lg-6
+          p Please fill out the form
+    #footer.container
+      p Copyright &amp; 2014 Me
