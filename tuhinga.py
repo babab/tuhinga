@@ -33,6 +33,8 @@ mapper = {
 
 
 class Parser:
+    '''Parse a tuhinga doc and create nodes to be processed with a lexer'''
+
     def __init__(self):
         '''Handle args and initialize instance variables'''
         self.latest_indentlvl = 0
@@ -126,8 +128,8 @@ class Parser:
             self._closeNodes(indentlvl)
 
         self.parsed[indentlvl] = data
-        self.latest_indentlvl = indentlvl
         self.nodes.append((1, data))
+        self.latest_indentlvl = indentlvl
         self.current_indentlvl = indentlvl
 
     def _closeNodes(self, indentlvl):
@@ -139,7 +141,10 @@ class Parser:
 
 
 class LexerXML:
+    '''Lexical compilation of parsed nodes to XML markup'''
+
     def __init__(self, parser):
+        '''Object init is the only public method'''
         self.output = ''
         self.doctype = 'html5'
 
@@ -151,12 +156,12 @@ class LexerXML:
                 except IndexError:
                     raise Exception('Markup Tree Error: parser did not '
                                     'properly close all nodes')
-                self.handleStartTag(data=node[1], next_lvl=next_lvl)
+                self._startNode(data=node[1], next_lvl=next_lvl)
             elif node[0] == 0:
-                self.handleEndTag(data=node[1])
+                self._endNode(data=node[1])
             n += 1
 
-    def handleStartTag(self, data, next_lvl):
+    def _startNode(self, data, next_lvl):
         if data['element'] in mapper[self.doctype].keys():
             element = mapper[self.doctype][data['element']]['element']
             single = mapper[self.doctype][data['element']]['single']
@@ -167,7 +172,7 @@ class LexerXML:
             content_dest = '>'
 
         if element == 'html5':
-            self.add(data['indentlvl'], '<!doctype html>\n<html>')
+            self._addOutput(data['indentlvl'], '<!doctype html>\n<html>')
             return self
 
         t = '<' + element
@@ -200,25 +205,29 @@ class LexerXML:
             if data['indentlvl'] >= next_lvl:
                 t += '</{}>'.format(element)
 
-        self.add(data['indentlvl'], t)
+        self._addOutput(data['indentlvl'], t)
 
-    def handleEndTag(self, data):
+    def _endNode(self, data):
         if data['element'] == 'html5':
-            self.add(data['indentlvl'], '</html>')
+            self._addOutput(data['indentlvl'], '</html>')
             return self
 
-        self.add(data['indentlvl'], '</{}>'.format(data['element']))
+        self._addOutput(data['indentlvl'], '</{}>'.format(data['element']))
 
-    def add(self, indentlvl, contents):
+    def _addOutput(self, indentlvl, contents):
         self.output += ((' ' * SETTING_OUTPUT_INDENT)
                         * indentlvl) + contents + '\n'
 
 
+def file(filelocation):
+    '''Shortcut for parsing, lexing and mapping a document from file'''
+    return LexerXML(Parser().file(filelocation)).output
+
+
+def stdin():
+    '''Shortcut for parsing, lexing and mapping from stdin/fileinput'''
+    return LexerXML(Parser().fileinput()).output
+
+
 if __name__ == '__main__':
-    p = Parser()
-
-    p.file('examples/dev-test.tuh')
-    # p.fileinput()
-
-    lexer = LexerXML(p)
-    print(lexer.output)
+    print(file('examples/dev-test.tuh'))
