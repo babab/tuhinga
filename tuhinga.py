@@ -33,11 +33,12 @@ mapper = {
     'html5': {
 
         'br': {'single': True, 'element': 'br', 'content': '-'},
+        'hr': {'single': True, 'element': 'hr', 'content': '-'},
         'input': {'single': True, 'element': 'input', 'content': 'value'},
         # js: alternative for script-src
         'js': {'single': False, 'element': 'script', 'content': 'src'},
-        'meta': {'single': True, 'element': 'meta', 'content': 'content'},
         'link': {'single': True, 'element': 'link', 'content': 'href'},
+        'meta': {'single': True, 'element': 'meta', 'content': 'content'},
         'script-src': {'single': False, 'element': 'script', 'content': 'src'},
 
     },
@@ -113,6 +114,7 @@ class Parser:
             element = identifier[:identifier.find('#')]
             if '.' in identifier:
                 _id = identifier[identifier.find('#') + 1:identifier.find('.')]
+                _class = identifier.split('.')[1:]
             else:
                 _id = identifier[identifier.find('#') + 1:]
         elif '.' in identifier:
