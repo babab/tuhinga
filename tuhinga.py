@@ -16,21 +16,42 @@
 
 import fileinput
 
+__docformat__ = 'restructuredtext'
+__author__ = "Benjamin Althues"
+__copyright__ = "Copyright (C) 2014  Benjamin Althues"
+__version_info__ = (0, 1, 0, 'alpha', 0)
+__version__ = '0.1.0'
+
+## Setting defaults ##########################################################
+
 SETTING_INPUT_INDENT = 2
 SETTING_OUTPUT_INDENT = 2
+
+## Default mapper for lexerXML ###############################################
 
 mapper = {
     'html5': {
 
         'br': {'single': True, 'element': 'br', 'content': '-'},
         'input': {'single': True, 'element': 'input', 'content': 'value'},
+        # js: alternative for script-src
+        'js': {'single': False, 'element': 'script', 'content': 'src'},
         'meta': {'single': True, 'element': 'meta', 'content': 'content'},
+        'link': {'single': True, 'element': 'link', 'content': 'href'},
         'script-src': {'single': False, 'element': 'script', 'content': 'src'},
 
     },
 }
-'''List of single tags and mapping of contents to arguments'''
+'''List of single tags and mapping of contents to arguments
 
+Possible value of content:
+    - '>': print contents after start tag (default)
+    - '-': strip contents if any
+    - 'some-string': map any contents to an html argument
+'''
+
+
+## Parser and Lexer objects ##################################################
 
 class Parser:
     '''Parse a tuhinga doc and create nodes to be processed with a lexer'''
@@ -230,6 +251,8 @@ class LexerXML:
                         * indentlvl) + contents + '\n'
 
 
+## Shortcut functions ########################################################
+
 def string(string):
     '''Shortcut for parsing, lexing and mapping a document from a string'''
     return LexerXML(Parser().string(string)).output
@@ -244,31 +267,11 @@ def stdin():
     '''Shortcut for parsing, lexing and mapping from stdin/fileinput'''
     return LexerXML(Parser().fileinput()).output
 
+## When invoked as script, read files or stdin ###############################
 
 if __name__ == '__main__':
     # print(file('examples/dev-test.tuh'))
-
-    contents = '''
-        html5
-          head
-            script-src script.js
-          body
-            .container
-              .row
-                h1 Row 1
-                .col-lg-4
-                  p Column 1
-                .col-lg-4
-                  p Column 2
-                .col-lg-4
-                  p Column 3
-              .row
-                h1 Row 2
-                .col-lg-4
-                  p Column 1
-                .col-lg-4
-                  p Column 2
-                .col-lg-4
-                  p Column 3
-    '''
-    print(string(contents))
+    try:
+        print(stdin())
+    except KeyboardInterrupt:
+        print('Bye')
