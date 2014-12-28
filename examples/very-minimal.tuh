@@ -1,0 +1,13 @@
+; A very minimal example of a document
+
+html5
+  head
+    meta :charset=utf-8
+    meta :name=viewport device-width, initial-scale=1.0
+    title Page title
+  body
+    #main.container
+      h1.page-header Page title
+        small Page subtitle
+    #footer.container
+      p Copyright &amp; 2014 Me

@@ -15,36 +15,27 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
-from bottle import response, route, run, static_file, template
+from bottle import post, response, request, route, run, static_file, template
 
 import tuhinga
-
-
-TEMPLATE_DOC = '''html5
-  head
-    meta :charset=utf-8
-    meta :name=viewport device-width, initial-scale=1.0
-  body
-    .container
-      h1.page-header tuhinga webREPL
-      small version 0.1.0
-'''
 
 
 @route('/')
 def index():
     '''Frontend view: convert tuhinga to html and pass as bottle template'''
     tpl = tuhinga.file('webrepl.tpl.tuh')
-    html = tuhinga.string(TEMPLATE_DOC)
-    response.content_type = 'text/html; charset=utf-8'
-    return template(tpl, initial_doc=TEMPLATE_DOC, initial_html=html)
+    with open('very-minimal.tuh') as f:
+        code = f.read()
+
+    html = tuhinga.string(code)
+    return template(tpl, initial_doc=code, initial_html=html)
 
 
-@route('/api')
+@post('/api')
 def api():
     '''Backend view: convert POST input to html'''
-    response.content_type = 'text/html; charset=utf-8'
-    return template(tuhinga.file('examples/webrepl.tpl.tuh'))
+    string = request.forms.get('src')
+    return {'html': template('{{ src }}', src=tuhinga.string(string))}
 
 
 @route('/source')

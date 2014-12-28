@@ -8,7 +8,10 @@
     });
 
     $('#src').keyup(function() {
-        $('#dest').text("And it's gone");
+        $.post('/api', {'src': $('#src').val()}, function(data) {
+            $('#dest').html(data.html);
+        });
+
     });
 
 })();

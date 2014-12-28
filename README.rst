@@ -8,29 +8,21 @@ pages.
 A tuhinga example document
 ------------------------------------------------------------------------------
 
-File: pretty-minimal.tuh::
+File: examples/very-minimal.tuh::
 
-   ; A pretty minimal example of a document with a form
+   ; A very minimal example of a document
 
    html5
      head
        meta :charset=utf-8
        meta :name=viewport device-width, initial-scale=1.0
-       css http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css
-       js http://code.jquery.com/jquery-2.1.3.min.js
-       js /static/my_script.js
-       title Please fill out you name
+       title Page title
      body
        #main.container
-         h1 Please fill out you name
+         h1.page-header Page title
          .row
-           .col-lg-6
-             form.form
-               input.form-control :type=text :placeholder=Name John Doe
-               hr
-               input.form-control :type=submit Send name
-           .col-lg-6
-             p Please fill out the form
+           .col-lg-12
+             p Hello World!
        #footer.container
          p Copyright &amp; 2014 Me
 
@@ -41,24 +33,14 @@ After converting to HTML::
      <head>
        <meta charset="utf-8" />
        <meta name="viewport" content="device-width, initial-scale=1.0" />
-       <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
-       <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
-       <script src="/static/my_script.js"></script>
-       <title>Please fill out you name</title>
+       <title>Page title</title>
      </head>
      <body>
        <div id="main" class="container">
-         <h1>Please fill out you name</h1>
+         <h1 class="page-header">Page title</h1>
          <div class="row">
-           <div class="col-lg-6">
-             <form class="form">
-               <input class="form-control" type="text" placeholder="Name" value="John Doe" />
-               <hr />
-               <input class="form-control" type="submit" value="Send name" />
-             </form>
-           </div>
-           <div class="col-lg-6">
-             <p>Please fill out the form</p>
+           <div class="col-lg-12">
+             <p>Hello World!</p>
            </div>
          </div>
        </div>
@@ -68,8 +50,9 @@ After converting to HTML::
      </body>
    </html>
 
-The tuhinga equivalent of the HTML output uses 32% less characters, and
-not a single angle bracket.
+
+The tuhinga equivalent of any HTML output uses roughly 33% less
+characters, and not a single angle bracket.
 
 
 Using Tuhinga to write XML / HTML5
@@ -85,7 +68,7 @@ What follows are the rules that are applied with the default mapping.
 You can alter how these mappings work though. This means you can easily
 add your own symbols.
 
-special symbols
+Special symbols
 ###############
 
 - **css**: expanded to <link rel="stylesheet" {href="*$content*"} />
@@ -96,13 +79,42 @@ special symbols
 - **meta**: expanded to <meta {content="*$content*"} />
 - **script-src**: expanded to <script {src="*$content*"}></script>
 
-recognised as single tags
+Recognised as single tags
 #########################
 
-br, hr, input
+br, css, hr, input, link, meta
 
 
-license
+Convert tuhinga templates while instantly with the webREPL
+------------------------------------------------------------------------------
+
+Use the webREPL as an easy way to fiddle around with writing tuhinga
+documents or use it as a serious tool to quickly write up your pages. It
+will give instant feedback after each keystroke of the output.
+
+The webREPL is written using the bottle framework, which is not a
+dependency of tuhinga itself. Therefore, you must be sure to have bottle
+installed if you wish to use it.
+
+Install bottle (in a virtualenv)
+################################
+
+::
+
+   pip install bottle
+
+Run the webREPL
+###############
+
+::
+
+   cd webrepl
+   ./webrepl.py
+
+Now you can visit http://localhost:8080/ and play around.
+
+
+License
 -------
 
 Copyright (c) 2014 Benjamin Althues <benjamin@babab.nl>
