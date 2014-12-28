@@ -1,0 +1,8 @@
+include LICENSE
+include README.rst
+include tuh.vim
+recursive-include examples bootstrap-navbar.tuh
+recursive-include examples dev-test.tuh
+recursive-include examples pretty-minimal.tuh
+recursive-include examples very-minimal.tuh
+
