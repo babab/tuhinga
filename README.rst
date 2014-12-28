@@ -149,7 +149,9 @@ Syntax file for Vim
 .. image:: http://i.imgur.com/uqpEpjN.png
 
 If you use Vim for your editing, you can install the syntax file to have
-pretty syntax highlighting for Tuturu (\*.tuh) documents.
+pretty syntax highlighting for Tuturu (\*.tuh) documents. It's my first
+go at writing a syntax.vim file and it currently has some small bugs,
+which should probably be resolved soon.
 
 .. code-block:: console
 

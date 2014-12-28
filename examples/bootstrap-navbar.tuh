@@ -24,4 +24,4 @@ html5
         p
          a.btn.btn-primary.btn-lg :role=button Learn more
 
-; vim: set expandtab ts=2 sw=2 sts=2:
+; vim: set ft=tuh expandtab ts=2 sw=2 sts=2:

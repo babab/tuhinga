@@ -11,3 +11,5 @@ html5
         small Page subtitle
     #footer.container
       p Copyright &amp; 2014 Me
+
+; vim: set ft=tuh expandtab ts=2 sw=2 sts=2:

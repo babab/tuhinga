@@ -21,3 +21,5 @@ html5
           p Please fill out the form
     #footer.container
       p Copyright &amp; 2014 Me
+
+; vim: set ft=tuh expandtab ts=2 sw=2 sts=2:
