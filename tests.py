@@ -18,6 +18,12 @@ import tuhinga
 
 
 @timed(.005)
-def test_html5():
+def test_shortcut_string():
     html = tuhinga.string('html5\n  head\n')
     eq_(html, '<!doctype html>\n<html>\n  <head></head>\n</html>\n')
+
+
+@timed(.005)
+def test_shortcut_string_args():
+    html = tuhinga.string('html5\n   head\n', input_indent=3, output_indent=8)
+    eq_(html, '<!doctype html>\n<html>\n        <head></head>\n</html>\n')

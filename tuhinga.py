@@ -24,8 +24,11 @@ __version__ = '0.1.0'
 
 ## Setting defaults ##########################################################
 
-SETTING_INPUT_INDENT = 2
-SETTING_OUTPUT_INDENT = 2
+DEFAULT_INPUT_INDENT = 2
+'''The standard value of tuhinga's indentation is 2 spaces'''
+
+DEFAULT_OUTPUT_INDENT = 2
+'''The output can be set as a negative value to create condensed one liners'''
 
 ## Default mapper for lexerXML ###############################################
 
@@ -59,8 +62,10 @@ Possible value of content:
 class Parser:
     '''Parse a tuhinga doc and create nodes to be processed with a lexer'''
 
-    def __init__(self):
+    def __init__(self, input_indent=DEFAULT_INPUT_INDENT):
         '''Handle args and initialize instance variables'''
+        self.input_indent = input_indent
+
         self.latest_indentlvl = 0
         self.lineno = 0
         self.current_indentlvl = 0
@@ -99,8 +104,7 @@ class Parser:
 
         Make sure to run close() after the last call to parseLine.'''
         self.lineno += 1
-        indentlvl = int((len(line) - len(line.lstrip()))
-                        / SETTING_INPUT_INDENT)
+        indentlvl = int((len(line) - len(line.lstrip())) / self.input_indent)
         splitted = line.lstrip().split()
 
         # Skip empty lines and comment lines
@@ -174,10 +178,11 @@ class Parser:
 class LexerXML:
     '''Lexical compilation of parsed nodes to XML markup'''
 
-    def __init__(self, parser):
+    def __init__(self, parser, output_indent=DEFAULT_OUTPUT_INDENT):
         '''Object init is the only public method'''
         self.output = ''
         self.doctype = 'html5'
+        self.output_indent = output_indent
 
         n = 0
         for node in parser.nodes:
@@ -208,10 +213,13 @@ class LexerXML:
                 extra_args = mapper[self.doctype][data['element']]['extra']
 
         if element == 'html5':
+            # Do not print a newline if output_indent setting <= -1
+            newl = '\n' if self.output_indent > -1 else ''
             self._addOutput(
                 data['indentlvl'],
-                '<!doctype html>\n{}<html>'.format(
-                    ((' ' * SETTING_OUTPUT_INDENT) * data['indentlvl'])
+                '<!doctype html>{newl}{indent}<html>'.format(
+                    newl=newl,
+                    indent=((' ' * self.output_indent) * data['indentlvl'])
                 )
             )
             return self
@@ -240,7 +248,7 @@ class LexerXML:
                 t += data['content']
             else:
                 t += '\n{}{}'.format(
-                    ((' ' * SETTING_OUTPUT_INDENT) * next_lvl), data['content']
+                    ((' ' * self.output_indent) * next_lvl), data['content']
                 )
 
         # close tag if node has no children nodes
@@ -258,25 +266,33 @@ class LexerXML:
         self._addOutput(data['indentlvl'], '</{}>'.format(data['element']))
 
     def _addOutput(self, indentlvl, contents):
-        self.output += ((' ' * SETTING_OUTPUT_INDENT)
-                        * indentlvl) + contents + '\n'
+        # Do not print a newline if output_indent setting <= -1
+        newl = '\n' if self.output_indent > -1 else ''
+        self.output += ((' ' * self.output_indent)
+                        * indentlvl) + contents + newl
 
 
 ## Shortcut functions ########################################################
 
-def string(string):
+def string(string, input_indent=DEFAULT_INPUT_INDENT,
+           output_indent=DEFAULT_OUTPUT_INDENT):
     '''Shortcut for parsing, lexing and mapping a document from a string'''
-    return LexerXML(Parser().string(string)).output
+    parser = Parser(input_indent=input_indent).string(string)
+    return LexerXML(parser, output_indent=output_indent).output
 
 
-def file(filelocation):
+def file(filelocation, input_indent=DEFAULT_INPUT_INDENT,
+         output_indent=DEFAULT_OUTPUT_INDENT):
     '''Shortcut for parsing, lexing and mapping a document from file'''
-    return LexerXML(Parser().file(filelocation)).output
+    parser = Parser(input_indent=input_indent).file(filelocation)
+    return LexerXML(parser, output_indent=output_indent).output
 
 
-def stdin():
+def stdin(input_indent=DEFAULT_INPUT_INDENT,
+          output_indent=DEFAULT_OUTPUT_INDENT):
     '''Shortcut for parsing, lexing and mapping from stdin/fileinput'''
-    return LexerXML(Parser().fileinput()).output
+    parser = Parser(input_indent=input_indent).fileinput()
+    return LexerXML(parser, output_indent=output_indent).output
 
 ## When invoked as script, read files or stdin ###############################
 
