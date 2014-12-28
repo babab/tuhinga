@@ -5,12 +5,16 @@ Tuhinga is a minimalistic markup language that translates to XML/HTML.
 It can help you reduce typing and quicken the editing process of HTML
 pages.
 
+The implementation of Tuhinga is written in Python and is tested with Python
+versions 2.7.x and 3.4.x
+
+
 A tuhinga example document
 ------------------------------------------------------------------------------
 
 File: examples/very-minimal.tuh::
 
-   ; A very minimal example of a document
+   ; A very minimal example of a HTML5 document
 
    html5
      head
@@ -26,7 +30,9 @@ File: examples/very-minimal.tuh::
        #footer.container
          p Copyright &amp; 2014 Me
 
-After converting to HTML::
+After converting to HTML:
+
+.. code-block:: html
 
    <!doctype html>
    <html>
@@ -85,32 +91,72 @@ Recognised as single tags
 br, css, hr, input, link, meta
 
 
-Convert tuhinga templates while instantly with the webREPL
+Convert tuhinga templates with the python module
+------------------------------------------------------------------------------
+
+Tuhinga is distributed as a single module and can be downloaded and
+used as a script directly. If you install Tuhinga into your system or
+virtualenv, you can use the **tuh** executable.
+
+Converting a document is simple:
+
+.. code-block:: console
+
+   $ tuh somedocument.tuh > somedocument.html
+
+You can also read from stdinput:
+
+.. code-block:: console
+
+   $ cat somedocument.tuh tuh > somedocument.html  # passing a file
+   $ tuh > somedocument.html # typing a doc directly in the terminal
+
+The Tuhinga module itself has no external dependencies. The Tuhinga
+webREPL is distributed independently and requires bottle.
+
+
+Convert tuhinga templates with the instant webREPL
 ------------------------------------------------------------------------------
 
 Use the webREPL as an easy way to fiddle around with writing tuhinga
 documents or use it as a serious tool to quickly write up your pages. It
-will give instant feedback after each keystroke of the output.
+will give instant feedback of the output after each keystroke.
 
-The webREPL is written using the bottle framework, which is not a
-dependency of tuhinga itself. Therefore, you must be sure to have bottle
-installed if you wish to use it.
+The webREPL is written using the bottle Python micro-framework, which is
+not a dependency of tuhinga itself. Therefore, you must be sure to have
+bottle installed if you wish to use it.
 
 Install bottle (in a virtualenv)
 ################################
 
-::
+.. code-block:: console
 
-   pip install bottle
+   $ pip install bottle
 
 Run the webREPL
 ###############
 
-::
+.. code-block:: console
 
-   ./webrepl.py
+   $ ./webrepl.py
 
-Now you can visit http://localhost:8080/ and play around.
+Now you can visit *http://localhost:8080/* and play around.
+
+
+Syntax file for Vim
+------------------------------------------------------------------------------
+
+.. image:: http://i.imgur.com/uqpEpjN.png
+
+If you use Vim for your editing, you can install the syntax file to have
+pretty syntax highlighting for Tuturu (\*.tuh) documents.
+
+.. code-block:: console
+
+   mkdir -p ~/.vim/syntax
+   cp tuh.vim ~/.vim/syntax
+
+And enable in Vim with ``:set filetype=tuh``
 
 
 License
