@@ -108,7 +108,7 @@ You can also read from stdinput:
 
 .. code-block:: console
 
-   $ cat somedocument.tuh tuh > somedocument.html  # passing a file
+   $ cat somedocument.tuh | tuh > somedocument.html  # passing a file
    $ tuh > somedocument.html # typing a doc directly in the terminal
 
 The Tuhinga module itself has no external dependencies. The Tuhinga
