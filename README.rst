@@ -108,7 +108,6 @@ Run the webREPL
 
 ::
 
-   cd webrepl
    ./webrepl.py
 
 Now you can visit http://localhost:8080/ and play around.
