@@ -47,7 +47,6 @@ mapper = {
         'source': {'v': True},
         'track': {'v': True},
         'wbr': {'v': True},
-        'charset': {'v': True, 'e': 'meta', 'c': 'charset'},
         'css': {'v': True, 'e': 'link', 'c': 'href', 'h': 'rel="stylesheet"'},
         'input': {'v': True, 'c': 'value'},
         'input-button': {'v': True, 'e': 'input', 'c': 'value',
@@ -99,6 +98,7 @@ mapper = {
         'js': {'e': 'script', 'c': 'src', 'h': 'type="text/javascript"'},
         'link': {'v': True, 'c': 'href'},
         'meta': {'v': True, 'c': 'content'},
+        'meta-charset': {'v': True, 'e': 'meta', 'c': 'charset'},
         'script-src': {'e': 'script', 'c': 'src'},
     },
 }

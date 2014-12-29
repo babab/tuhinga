@@ -1,6 +1,6 @@
 html5
   head
-    charset utf-8
+    meta-charset utf-8
     meta :name=viewport device-width, initial-scale=1.0
   body
     #mainContent.container
