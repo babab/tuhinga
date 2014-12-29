@@ -264,6 +264,7 @@ class LexerXML:
             n += 1
 
     def _startNode(self, data, next_lvl):
+        out = ''
         is_element = True
 
         # defaults, possibly overridden by mapping
@@ -298,42 +299,37 @@ class LexerXML:
         elif element == '::':
             is_element = False
 
-        t = ''
         if is_element:
-            # Begin start tag
-            t += '<' + element
-            t += ' id="{}"'.format(data['id']) if data['id'] else ''
+            out += '<' + element  # Begin start tag
+            out += ' id="{}"'.format(data['id']) if data['id'] else ''
 
             if data['class']:
-                t += ' class="{}"'.format(' '.join(data['class']))
+                out += ' class="{}"'.format(' '.join(data['class']))
 
-            t += ' {}'.format(extra_args) if extra_args else ''
-
+            out += ' {}'.format(extra_args) if extra_args else ''
             for a in data['arguments']:
                 arg = a.split('=')
-                t += ' {}="{}"'.format(arg[0], arg[1])
+                out += ' {}="{}"'.format(arg[0], arg[1])
 
             # Use content as argument according to mapping
             if data['content'] and content_dest != '>' and content_dest != '-':
-                t += ' {}="{}"'.format(content_dest, data['content'])
-
-            # Close start tag
-            t += '>'
+                out += ' {}="{}"'.format(content_dest, data['content'])
+            out += '>'  # Close start tag
 
         # Add content, if any.
         # Properly align content depending on children nodes
         if data['content'] and content_dest == '>':
             if data['indentlvl'] >= next_lvl:
-                t += data['content']
+                out += data['content']
             else:
-                t += '\n{}{}'.format(self._indent(next_lvl), data['content'])
+                out += '\n{}{}'.format(self._indent(next_lvl), data['content'])
 
         # close tag if node has no children nodes
         if is_element and not void_elem:
             if data['indentlvl'] >= next_lvl:
-                t += '</{}>'.format(element)
+                out += '</{}>'.format(element)
 
-        self._addOutput(data['indentlvl'], t)
+        self._addOutput(data['indentlvl'], out)
 
     def _endNode(self, data):
         if data['element'] == 'html5':
