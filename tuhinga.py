@@ -59,6 +59,10 @@ Possible value of content:
 
 ## Parser and Lexer objects ##################################################
 
+class LexerError(Exception):
+    pass
+
+
 class Parser:
     '''Parse a tuhinga doc and create nodes to be processed with a lexer'''
 
@@ -190,7 +194,7 @@ class LexerXML:
                 try:
                     next_lvl = parser.nodes[n + 1][1]['indentlvl']
                 except IndexError:
-                    raise Exception('Markup Tree Error: parser did not '
+                    raise LexerError('Markup Tree Error: parser did not '
                                     'properly close all nodes')
                 self._startNode(data=node[1], next_lvl=next_lvl)
             elif node[0] == 0:

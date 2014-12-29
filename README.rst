@@ -146,19 +146,21 @@ Now you can visit *http://localhost:8080/* and play around.
 Syntax file for Vim
 ------------------------------------------------------------------------------
 
-.. image:: http://i.imgur.com/uqpEpjN.png
-
 If you use Vim for your editing, you can install the syntax file to have
 pretty syntax highlighting for Tuturu (\*.tuh) documents. It's my first
 go at writing a syntax.vim file and it currently has some small bugs,
 which should probably be resolved soon.
+
+.. image:: http://i.imgur.com/uqpEpjN.png
+
+Install the tuh.vim syntax file into your .vim folder:
 
 .. code-block:: console
 
    mkdir -p ~/.vim/syntax
    cp tuh.vim ~/.vim/syntax
 
-And enable in Vim with ``:set filetype=tuh``
+And use it in your Vim buffer with ``:set filetype=tuh``
 
 
 License
