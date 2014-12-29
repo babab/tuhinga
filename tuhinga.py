@@ -30,29 +30,78 @@ DEFAULT_INPUT_INDENT = 2
 DEFAULT_OUTPUT_INDENT = 2
 '''The output can be set as a negative value to create condensed one liners'''
 
-## Default mapper for lexerXML ###############################################
+## Default mapper for LexerXML ###############################################
 
 mapper = {
     'html5': {
-
-        'br': {'single': True, 'element': 'br', 'content': '-'},
-        'css': {'single': True, 'element': 'link', 'content': 'href',
-                'extra': 'rel="stylesheet"'},
-        'hr': {'single': True, 'element': 'hr', 'content': '-'},
-        'input': {'single': True, 'element': 'input', 'content': 'value'},
-        # js: alternative for script-src
-        'js': {'single': False, 'element': 'script', 'content': 'src'},
-        'link': {'single': True, 'element': 'link', 'content': 'href'},
-        'meta': {'single': True, 'element': 'meta', 'content': 'content'},
-        'script-src': {'single': False, 'element': 'script', 'content': 'src'},
-
+        'br': {'v': True},
+        'charset': {'v': True, 'e': 'meta', 'c': 'charset'},
+        'css': {'v': True, 'e': 'link', 'c': 'href', 'h': 'rel="stylesheet"'},
+        'hr': {'v': True},
+        'input': {'v': True, 'c': 'value'},
+        'input-button': {'v': True, 'e': 'input', 'c': 'value',
+                         'h': 'type="button"'},
+        'input-checkbox': {'v': True, 'e': 'input', 'c': 'value',
+                           'h': 'type="checkbox"'},
+        'input-color': {'v': True, 'e': 'input', 'c': 'value',
+                        'h': 'type="color"'},
+        'input-date': {'v': True, 'e': 'input', 'c': 'value',
+                       'h': 'type="date"'},
+        'input-datetime': {'v': True, 'e': 'input', 'c': 'value',
+                           'h': 'type="datetime"'},
+        'input-datetime-local': {'v': True, 'e': 'input', 'c': 'value',
+                                 'h': 'type="datetime-local"'},
+        'input-email': {'v': True, 'e': 'input', 'c': 'value',
+                        'h': 'type="email"'},
+        'input-file': {'v': True, 'e': 'input', 'c': 'value',
+                       'h': 'type="file"'},
+        'input-hidden': {'v': True, 'e': 'input', 'c': 'value',
+                         'h': 'type="hidden"'},
+        'input-image': {'v': True, 'e': 'input', 'c': 'value',
+                        'h': 'type="image"'},
+        'input-month': {'v': True, 'e': 'input', 'c': 'value',
+                        'h': 'type="month"'},
+        'input-number': {'v': True, 'e': 'input', 'c': 'value',
+                         'h': 'type="number"'},
+        'input-password': {'v': True, 'e': 'input', 'c': 'value',
+                           'h': 'type="password"'},
+        'input-radio': {'v': True, 'e': 'input', 'c': 'value',
+                        'h': 'type="radio"'},
+        'input-range': {'v': True, 'e': 'input', 'c': 'value',
+                        'h': 'type="range"'},
+        'input-reset': {'v': True, 'e': 'input', 'c': 'value',
+                        'h': 'type="reset"'},
+        'input-search': {'v': True, 'e': 'input', 'c': 'value',
+                         'h': 'type="search"'},
+        'input-submit': {'v': True, 'e': 'input', 'c': 'value',
+                         'h': 'type="submit"'},
+        'input-tel': {'v': True, 'e': 'input', 'c': 'value',
+                      'h': 'type="tel"'},
+        'input-text': {'v': True, 'e': 'input', 'c': 'value',
+                       'h': 'type="text"'},
+        'input-time': {'v': True, 'e': 'input', 'c': 'value',
+                       'h': 'type="time"'},
+        'input-url': {'v': True, 'e': 'input', 'c': 'value',
+                      'h': 'type="url"'},
+        'input-week': {'v': True, 'e': 'input', 'c': 'value',
+                       'h': 'type="week"'},
+        'js': {'e': 'script', 'c': 'src', 'h': 'type="text/javascript"'},
+        'link': {'v': True, 'c': 'href'},
+        'meta': {'v': True, 'c': 'content'},
+        'script-src': {'e': 'script', 'c': 'src'},
     },
 }
-'''List of single tags and mapping of contents to arguments
+'''Mapping of contents to arguments / list of void elements
+
+Possible keys:
+    - 'v': True if void element like <meta>. Default = false
+    - 'e': HTML element. Default = <name_of_dict_key>
+    - 'c': Content mapping, see below. Default = '>'
+    - 'h': Extra html arguments. Default = false
 
 Possible value of content:
     - '>': print contents after start tag (default)
-    - '-': strip contents if any
+    - '-': strip any contents
     - 'some-string': map any contents to an html argument
 '''
 
@@ -206,17 +255,20 @@ class LexerXML:
     def _startNode(self, data, next_lvl):
         # defaults, possibly overridden by mapping
         element = data['element']
-        single = False
+        void_elem = False
         content_dest = '>'
         extra_args = ''
 
         if data['element'] in mapper[self.doctype].keys():
             # apply mapping
-            element = mapper[self.doctype][data['element']]['element']
-            single = mapper[self.doctype][data['element']]['single']
-            content_dest = mapper[self.doctype][data['element']]['content']
-            if 'extra' in mapper[self.doctype][data['element']]:
-                extra_args = mapper[self.doctype][data['element']]['extra']
+            if 'e' in mapper[self.doctype][data['element']]:
+                element = mapper[self.doctype][data['element']]['e']
+            if 'v' in mapper[self.doctype][data['element']]:
+                void_elem = mapper[self.doctype][data['element']]['v']
+            if 'c' in mapper[self.doctype][data['element']]:
+                content_dest = mapper[self.doctype][data['element']]['c']
+            if 'h' in mapper[self.doctype][data['element']]:
+                extra_args = mapper[self.doctype][data['element']]['h']
 
         if element == 'html5':
             # Do not print a newline if output_indent setting <= -1
@@ -230,6 +282,7 @@ class LexerXML:
             )
             return self
 
+        # Begin start tag
         t = '<' + element
         t += ' id="{}"'.format(data['id']) if data['id'] else ''
 
@@ -246,17 +299,19 @@ class LexerXML:
         if data['content'] and content_dest != '>' and content_dest != '-':
             t += ' {}="{}"'.format(content_dest, data['content'])
 
-        t += ' />' if single else '>'
+        # Close start tag
+        t += '>'
 
+        # Add content, if any.
+        # Properly align content depending on children nodes
         if data['content'] and content_dest == '>':
-            # properly align content depending on children nodes
             if data['indentlvl'] >= next_lvl:
                 t += data['content']
             else:
                 t += '\n{}{}'.format(self._indent(next_lvl), data['content'])
 
         # close tag if node has no children nodes
-        if not single:
+        if not void_elem:
             if data['indentlvl'] >= next_lvl:
                 t += '</{}>'.format(element)
 

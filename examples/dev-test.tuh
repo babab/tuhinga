@@ -1,6 +1,6 @@
 html5
   head
-    meta :charset=utf-8
+    charset utf-8
     meta :name=viewport device-width, initial-scale=1.0
   body
     #mainContent.container
@@ -12,7 +12,7 @@ html5
           br
           h2 Titel 3
           p Some paragraph
-            strong \:Some content that starts and ends with an escaped \:
+            strong \:Some words that start and end with an escaped \:
           p.small Some paragraph with a small class
       .row
         .col-lg-12
@@ -20,8 +20,8 @@ html5
             p Some text
             small some smaller text
     form#form.form
-      input :type=text :placeholder=Name Input text
+      input-text :placeholder=Name Input Value
       label I want to receive the newsletter
-        input :type=checkbox :checked=
+        input-checkbox :checked=
 
 ; vim: set ft=tuh expandtab ts=2 sw=2 sts=2:

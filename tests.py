@@ -27,3 +27,12 @@ def test_shortcut_string():
 def test_shortcut_string_args():
     html = tuhinga.string('html5\n   head\n', input_indent=3, output_indent=8)
     eq_(html, '<!doctype html>\n<html>\n        <head></head>\n</html>\n')
+
+
+@timed(.005)
+def test_mapping():
+    html = tuhinga.string('html5\n  body\n    input-checkbox test')
+    comp = ('<!doctype html>\n<html>\n  <body>\n'
+            '    <input type="checkbox" value="test">\n'
+            '  </body>\n</html>\n')
+    eq_(html, comp)

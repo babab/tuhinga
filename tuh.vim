@@ -25,7 +25,7 @@ endif
 syn keyword tuhTodo contained TODO FIXME XXX NOTE
 syn match tuhComment /;.*$/ contains=tuhTodo
 
-syn match tuhElement contained /^\s*[a-zA-Z0-9]*/ skipwhite
+syn match tuhElement contained /^\s*[a-zA-Z0-9-]*/ skipwhite
 syn match tuhId contained /#[a-zA-Z0-9-]*/ skipwhite
 syn match tuhClass contained /\.[a-zA-Z0-9-]*/ skipwhite
 syn match tuhArgument contained /[^\\]:[a-zA-Z0-9-=]*/ skipwhite
