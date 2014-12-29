@@ -28,7 +28,7 @@ syn match tuhComment /;.*$/ contains=tuhTodo
 syn match tuhElement contained /^\s*[a-zA-Z0-9]*/ skipwhite
 syn match tuhId contained /#[a-zA-Z0-9-]*/ skipwhite
 syn match tuhClass contained /\.[a-zA-Z0-9-]*/ skipwhite
-syn match tuhArgument contained /:\S*/ skipwhite
+syn match tuhArgument contained /[^\\]:[a-zA-Z0-9-=]*/ skipwhite
 
 syn region tuhDocument start=/^[^;]/ end=/$/ transparent
             \ contains=tuhElement,tuhId,tuhClass,tuhArgument
@@ -42,3 +42,4 @@ hi def link tuhElement      Statement
 hi def link tuhId           Identifier
 hi def link tuhClass        Type
 hi def link tuhArgument     Constant
+hi def link tuhSpecial      Todo

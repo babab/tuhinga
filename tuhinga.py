@@ -141,6 +141,8 @@ class Parser:
         content = []
         args = []
 
+        # If a word starts with ':' and is not an argument,
+        # it should be escaped '\:'
         for i in remainder:
             if i.startswith(':'):
                 args.append(i[1:])
@@ -195,7 +197,7 @@ class LexerXML:
                     next_lvl = parser.nodes[n + 1][1]['indentlvl']
                 except IndexError:
                     raise LexerError('Markup Tree Error: parser did not '
-                                    'properly close all nodes')
+                                     'properly close all nodes')
                 self._startNode(data=node[1], next_lvl=next_lvl)
             elif node[0] == 0:
                 self._endNode(data=node[1])
@@ -251,9 +253,7 @@ class LexerXML:
             if data['indentlvl'] >= next_lvl:
                 t += data['content']
             else:
-                t += '\n{}{}'.format(
-                    ((' ' * self.output_indent) * next_lvl), data['content']
-                )
+                t += '\n{}{}'.format(self._indent(next_lvl), data['content'])
 
         # close tag if node has no children nodes
         if not single:
@@ -269,11 +269,15 @@ class LexerXML:
 
         self._addOutput(data['indentlvl'], '</{}>'.format(data['element']))
 
+    def _indent(self, indentlvl):
+        return (' ' * self.output_indent) * indentlvl
+
     def _addOutput(self, indentlvl, contents):
-        # Do not print a newline if output_indent setting <= -1
+        # Do not print a newline if output_indent setting <= -1 and
+        # unescape any special tokens
         newl = '\n' if self.output_indent > -1 else ''
-        self.output += ((' ' * self.output_indent)
-                        * indentlvl) + contents + newl
+        contents = contents.replace('\\:', ':')
+        self.output += self._indent(indentlvl) + contents + newl
 
 
 ## Shortcut functions ########################################################
@@ -301,7 +305,8 @@ def stdin(input_indent=DEFAULT_INPUT_INDENT,
 ## When invoked as script, read files or stdin ###############################
 
 if __name__ == '__main__':
-    try:
-        print(stdin())
-    except KeyboardInterrupt:
-        print('Bye')
+    print(file('examples/dev-test.tuh'))
+    # try:
+    #     print(stdin())
+    # except KeyboardInterrupt:
+    #     print('Bye')
