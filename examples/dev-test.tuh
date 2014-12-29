@@ -14,11 +14,17 @@ html5
           p Some paragraph
             strong \:Some words that start and end with an escaped \:
           p.small Some paragraph with a small class
+            :: and some more content
+            :: in multiple lines
       .row
         .col-lg-12
-          .jumbotron A fancy jumbotron
-            p Some text
+          .jumbotron First line in jumbotron
+            :: Second content line in jumbotron
             small some smaller text
+              strong some stronger text
+            :: More content lines
+            :: More content lines
+            :: More content lines
     form#form.form
       input-text :placeholder=Name Input Value
       label I want to receive the newsletter

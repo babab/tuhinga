@@ -12,13 +12,13 @@ versions 2.7.x and 3.4.x
 A tuhinga example document
 ------------------------------------------------------------------------------
 
-File: examples/very-minimal.tuh::
+An example of a HTML5 (\*.tuh) document::
 
-   ; A very minimal example of a HTML5 document
+   ; Comments start with ;
 
    html5
      head
-       meta :charset=utf-8
+       meta-charset utf-8
        meta :name=viewport device-width, initial-scale=1.0
        title Page title
      body
@@ -26,9 +26,15 @@ File: examples/very-minimal.tuh::
          h1.page-header Page title
          .row
            .col-lg-12
-             p Hello World!
+             p Paragraph line 1
+               :: line 2
+               :: line 3
+               small line 4
+             p
+               :: line 1
+               :: line 2
        #footer.container
-         p Copyright &amp; 2014 Me
+         p.muted Copyright &amp; 2014 Me
 
 After converting to HTML:
 
@@ -37,8 +43,8 @@ After converting to HTML:
    <!doctype html>
    <html>
      <head>
-       <meta charset="utf-8" />
-       <meta name="viewport" content="device-width, initial-scale=1.0" />
+       <meta charset="utf-8">
+       <meta name="viewport" content="device-width, initial-scale=1.0">
        <title>Page title</title>
      </head>
      <body>
@@ -46,12 +52,21 @@ After converting to HTML:
          <h1 class="page-header">Page title</h1>
          <div class="row">
            <div class="col-lg-12">
-             <p>Hello World!</p>
+             <p>
+               Paragraph line 1
+               line 2
+               line 3
+               <small>line 4</small>
+             </p>
+             <p>
+               line 1
+               line 2
+             </p>
            </div>
          </div>
        </div>
        <div id="footer" class="container">
-         <p>Copyright &amp; 2014 Me</p>
+         <p class="muted">Copyright &amp; 2014 Me</p>
        </div>
      </body>
    </html>

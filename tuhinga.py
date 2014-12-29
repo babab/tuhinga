@@ -264,11 +264,13 @@ class LexerXML:
             n += 1
 
     def _startNode(self, data, next_lvl):
+        is_element = True
+
         # defaults, possibly overridden by mapping
         element = data['element']
-        void_elem = False
         content_dest = '>'
         extra_args = ''
+        void_elem = False
 
         if data['element'] in mapper[self.doctype].keys():
             # apply mapping
@@ -281,6 +283,7 @@ class LexerXML:
             if 'h' in mapper[self.doctype][data['element']]:
                 extra_args = mapper[self.doctype][data['element']]['h']
 
+        # hardcoded special elements
         if element == 'html5':
             # Do not print a newline if output_indent setting <= -1
             newl = '\n' if self.output_indent > -1 else ''
@@ -292,26 +295,30 @@ class LexerXML:
                 )
             )
             return self
+        elif element == '::':
+            is_element = False
 
-        # Begin start tag
-        t = '<' + element
-        t += ' id="{}"'.format(data['id']) if data['id'] else ''
+        t = ''
+        if is_element:
+            # Begin start tag
+            t += '<' + element
+            t += ' id="{}"'.format(data['id']) if data['id'] else ''
 
-        if data['class']:
-            t += ' class="{}"'.format(' '.join(data['class']))
+            if data['class']:
+                t += ' class="{}"'.format(' '.join(data['class']))
 
-        t += ' {}'.format(extra_args) if extra_args else ''
+            t += ' {}'.format(extra_args) if extra_args else ''
 
-        for a in data['arguments']:
-            arg = a.split('=')
-            t += ' {}="{}"'.format(arg[0], arg[1])
+            for a in data['arguments']:
+                arg = a.split('=')
+                t += ' {}="{}"'.format(arg[0], arg[1])
 
-        # Use content as argument according to mapping
-        if data['content'] and content_dest != '>' and content_dest != '-':
-            t += ' {}="{}"'.format(content_dest, data['content'])
+            # Use content as argument according to mapping
+            if data['content'] and content_dest != '>' and content_dest != '-':
+                t += ' {}="{}"'.format(content_dest, data['content'])
 
-        # Close start tag
-        t += '>'
+            # Close start tag
+            t += '>'
 
         # Add content, if any.
         # Properly align content depending on children nodes
@@ -322,7 +329,7 @@ class LexerXML:
                 t += '\n{}{}'.format(self._indent(next_lvl), data['content'])
 
         # close tag if node has no children nodes
-        if not void_elem:
+        if is_element and not void_elem:
             if data['indentlvl'] >= next_lvl:
                 t += '</{}>'.format(element)
 
@@ -371,8 +378,8 @@ def stdin(input_indent=DEFAULT_INPUT_INDENT,
 ## When invoked as script, read files or stdin ###############################
 
 if __name__ == '__main__':
-    print(file('examples/dev-test.tuh'))
-    # try:
-    #     print(stdin())
-    # except KeyboardInterrupt:
-    #     print('Bye')
+    # print(file('examples/dev-test.tuh'))
+    try:
+        print(stdin())
+    except KeyboardInterrupt:
+        print('Bye')
