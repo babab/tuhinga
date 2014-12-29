@@ -153,7 +153,7 @@ Run the webREPL
 
 .. code-block:: console
 
-   $ ./webrepl.py
+   $ ./tuhinga_webrepl.py
 
 Now you can visit *http://localhost:8080/* and play around.
 

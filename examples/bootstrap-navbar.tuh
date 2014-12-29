@@ -12,9 +12,9 @@ html5
         .navbar-collapse.collapse
           form#navbar-form.navbar-form.navbar-right :role=form
             .form-group
-              input#email.form-control :type=email Email
+              input-email.form-control Email
             .form-group
-              input#password.form-control :type=password Password
+              input-password.form-control Password
             button.btn.btn-success :type=submit Sign in
 
     .jumbotron

@@ -55,7 +55,7 @@ html5
         a :href=/source view the source
       p Copyright &copy; 2014 Benjamin Althues
     js http://code.jquery.com/jquery-2.1.3.min.js
-    js /webrepl.js
+    js /tuhinga_webrepl.js
 
 '''
 
@@ -117,7 +117,7 @@ def source():
     return code
 
 
-@route('/webrepl.js')
+@route('/tuhinga_webrepl.js')
 def script():
     return js
 
