@@ -34,10 +34,21 @@ DEFAULT_OUTPUT_INDENT = 2
 
 mapper = {
     'html5': {
+        'area': {'v': True},
+        'base': {'v': True},
         'br': {'v': True},
+        'br': {'v': True},
+        'col': {'v': True},
+        'embed': {'v': True},
+        'hr': {'v': True},
+        'img': {'v': True},
+        'keygen': {'v': True},
+        'param': {'v': True},
+        'source': {'v': True},
+        'track': {'v': True},
+        'wbr': {'v': True},
         'charset': {'v': True, 'e': 'meta', 'c': 'charset'},
         'css': {'v': True, 'e': 'link', 'c': 'href', 'h': 'rel="stylesheet"'},
-        'hr': {'v': True},
         'input': {'v': True, 'c': 'value'},
         'input-button': {'v': True, 'e': 'input', 'c': 'value',
                          'h': 'type="button"'},
