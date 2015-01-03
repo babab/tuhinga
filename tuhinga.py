@@ -37,7 +37,6 @@ mapper = {
         'area': {'v': True},
         'base': {'v': True},
         'br': {'v': True},
-        'br': {'v': True},
         'col': {'v': True},
         'embed': {'v': True},
         'hr': {'v': True},
