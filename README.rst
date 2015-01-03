@@ -1,3 +1,7 @@
+.. image:: https://travis-ci.org/babab/tuhinga.svg?branch=master
+    :target: https://travis-ci.org/babab/tuhinga
+
+
 Tuhinga
 ==============================================================================
 
@@ -110,8 +114,10 @@ Convert tuhinga templates with the python module
 ------------------------------------------------------------------------------
 
 Tuhinga is distributed as a single module and can be downloaded and
-used as a script directly. If you install Tuhinga into your system or
-virtualenv, you can use the **tuh** executable.
+used directly. If you install Tuhinga into your system or
+virtualenv, you can use the more convenient **tuh** executable script.
+If you use the module, simply replace **tuh** with **./tuhinga.py** in
+the instructions below.
 
 Converting a document is simple:
 
@@ -172,8 +178,8 @@ Install the tuh.vim syntax file into your .vim folder:
 
 .. code-block:: console
 
-   mkdir -p ~/.vim/syntax
-   cp tuh.vim ~/.vim/syntax
+   $ mkdir -p ~/.vim/syntax
+   $ cp tuh.vim ~/.vim/syntax
 
 And use it in your Vim buffer with ``:set filetype=tuh``
 
