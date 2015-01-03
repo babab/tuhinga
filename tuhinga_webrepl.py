@@ -114,7 +114,7 @@ def api():
 def source():
     '''Frontend view: display tuhinga source code'''
     response.content_type = 'text/plain; charset=utf-8'
-    return code
+    return frontend
 
 
 @route('/tuhinga_webrepl.js')
