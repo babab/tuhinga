@@ -6,10 +6,21 @@ Tuhinga markup language
 
 Tuhinga is a minimalistic markup language that translates to XML/HTML.
 It can help you reduce typing and quicken the editing process of HTML
-pages.
+pages. It may remind you a little of HAML since it shares a few common
+concepts, but it has different goals. HAML is essentially a template
+language, while tuhinga is a tiny markup language primarily aimed to be
+just a precursor for XML/HTML documents.
 
-The implementation of Tuhinga is written in Python and is tested with Python
-versions 2.7, 3.2 and later.
+The only true goal of Tuhinga is **conciseness**. And this is also
+where it stands out against other solutions. It is the prettiest.
+This means it may never support XML and HTML for the full 100%, since
+that would cause the need for a much more expansive syntax. Use it if
+you think HAML is a good idea, but not beatiful enough. Otherwise I'd
+advise to just use HAML, since it is much more mature and has numerous
+implementations.
+
+The implementation of Tuhinga is written in Python. Supported Python
+versions are 2.7 and 3.2 and later.
 
 
 A tuhinga example document
@@ -137,6 +148,25 @@ You can also read from stdinput:
 
 The Tuhinga module itself has no external dependencies. The Tuhinga
 webREPL is distributed independently and requires bottle.
+
+
+Download and install
+--------------------
+
+Tuhinga itself has no external dependencies. If you have pip installed,
+you can just:
+
+.. code-block:: console
+
+   # pip install tuhinga
+
+To work with the current development version, do something like this:
+
+.. code-block:: console
+
+   $ git clone git://bitbucket.org/babab/tuhinga.git
+   # cd tuhinga
+   # python setup.py install
 
 
 Convert tuhinga templates with the instant webREPL
