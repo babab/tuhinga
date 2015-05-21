@@ -3,24 +3,20 @@
 from distutils.core import setup
 import tuhinga
 
-long_desc = '''
-Tuhinga is a minimalistic markup language that translates to XML/HTML.
-'''
-
 setup(
     name='tuhinga',
     version=tuhinga.__version__,
     description=tuhinga.__doc__,
     author=tuhinga.__author__,
     author_email='benjamin@babab.nl',
-    # url='http://github.com/babab/tuhinga',
-    # download_url='http://github.com/babab/tuhinga',
+    url='http://github.com/babab/tuhinga',
+    download_url='https://pypi.python.org/pypi/tuhinga',
     py_modules=['tuhinga'],
     license='ISC',
-    long_description=long_desc,
+    long_description=open('README.rst').read(),
     platforms='any',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Console',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
@@ -32,7 +28,7 @@ setup(
         'Operating System :: POSIX',
         'Operating System :: Unix',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3',
         'Topic :: Adaptive Technologies',
         'Topic :: Documentation',
         'Topic :: Internet',
@@ -47,4 +43,4 @@ setup(
         'Topic :: Utilities',
     ],
     scripts=['tuh'],
-    )
+)
