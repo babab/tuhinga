@@ -1,6 +1,9 @@
 Tuhinga markup language
 ==============================================================================
 
+.. image:: https://travis-ci.org/babab/tuhinga.svg?branch=master
+    :target: https://travis-ci.org/babab/tuhinga
+
 .. toctree::
    :maxdepth: 2
 
