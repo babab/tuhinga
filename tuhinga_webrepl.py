@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (c) 2014 Benjamin Althues <benjamin@babab.nl>
+# Copyright (c) 2014-2015 Benjamin Althues <benjamin@babab.nl>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -20,7 +20,7 @@ from bottle import post, response, request, route, run, template
 import tuhinga
 
 frontend = '''; Tuhinga webREPL template for bottle
-; Copyright (c) 2014 Benjamin Althues <benjamin@babab.nl>
+; Copyright (c) 2014-2015 Benjamin Althues <benjamin@babab.nl>
 
 html5
   head
@@ -53,7 +53,7 @@ html5
       hr
       p.pull-right This page itself is written in tuhinga,
         a :href=/source view the source
-      p Copyright &copy; 2014 Benjamin Althues
+      p Copyright &copy; 2014-2015 Benjamin Althues
     js http://code.jquery.com/jquery-2.1.3.min.js
     js /tuhinga_webrepl.js
 
@@ -91,7 +91,7 @@ html5
       h1.page-header Page title
         small Page subtitle
     #footer.container
-      p Copyright &amp; 2014 Me
+      p Copyright &amp; 2015 Me
 '''
 
 

@@ -48,7 +48,7 @@ An example of a HTML5 (\*.tuh) document::
                :: line 1
                :: line 2
        #footer.container
-         p.muted Copyright &amp; 2014 Me
+         p.muted Copyright &amp; 2015 Me
 
 After converting to HTML:
 
@@ -80,7 +80,7 @@ After converting to HTML:
          </div>
        </div>
        <div id="footer" class="container">
-         <p class="muted">Copyright &amp; 2014 Me</p>
+         <p class="muted">Copyright &amp; 2015 Me</p>
        </div>
      </body>
    </html>
@@ -220,7 +220,7 @@ And use it in your Vim buffer with ``:set filetype=tuh``
 License
 -------
 
-Copyright (c) 2014 Benjamin Althues <benjamin@babab.nl>
+Copyright (c) 2014-2015 Benjamin Althues <benjamin@babab.nl>
 
 Permission to use, copy, modify, and distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
