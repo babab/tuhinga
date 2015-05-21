@@ -2,6 +2,7 @@ include LICENSE
 include README.rst
 include tests.py
 include tuh.vim
+include tuhinga_webrepl.py
 recursive-include examples bootstrap-navbar.tuh
 recursive-include examples dev-test.tuh
 recursive-include examples pretty-minimal.tuh
