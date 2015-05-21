@@ -10,7 +10,7 @@ It can help you reduce typing and quicken the editing process of HTML
 pages.
 
 The implementation of Tuhinga is written in Python and is tested with Python
-versions 2.7.x and 3.4.x
+versions 2.7, 3.2 or later.
 
 
 A tuhinga example document

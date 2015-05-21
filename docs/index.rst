@@ -9,7 +9,7 @@ It can help you reduce typing and quicken the editing process of HTML
 pages.
 
 The implementation of Tuhinga is written in Python and is tested with Python
-versions 2.7.x and 3.4.x
+versions 2.7, 3.2 and later.
 
 
 A tuhinga example document
@@ -82,11 +82,11 @@ characters, and not a single angle bracket.
 Using Tuhinga to write XML / HTML5
 ------------------------------------------------------------------------------
 
-The handling of certain symbols like `js`, `meta`, `link` and 'other'
-self-closing elements and the *$content* that follows is done by
-applying a set of rules, called a mapping. All other elements are
-treated with the default handling of the Lexer (currently there is only
-a XML/HTML Lexer).
+The handling of certain symbols like `js`, `meta`, `input` and other
+void elements and the *$content* that follows is done by applying a
+set of rules, called a mapping. All other elements are treated with
+the default handling of the Lexer (currently there is only a XML/HTML
+Lexer).
 
 What follows are the rules that are applied with the default mapping.
 You can alter how these mappings work though. This means you can easily
@@ -95,30 +95,32 @@ add your own symbols.
 Special symbols
 ###############
 
-- **css**: expanded to <link rel="stylesheet" {href="*$content*"} />
-- **html5**: expanded to <!doctype html><html> ... </html>
-- **input**: expanded to <input {value="*$content*"} />
+- **html5**: sets doctype; is expanded to <!doctype html><html> ... </html>
+- **css**: expanded to <link rel="stylesheet" {href="*$content*"}>
+- **input**: expanded to <input {value="*$content*"}>
+- **input-***: expanded to <input type="*" {value="*$content*"}>
 - **js**: an alternative for writing **script-src**
-- **link**: expanded to <link {href="*$content*"} />
-- **meta**: expanded to <meta {content="*$content*"} />
+- **link**: expanded to <link {href="*$content*"}>
+- **meta**: expanded to <meta {content="*$content*"}>
+- **meta-charset**: expanded to <meta charset="*$content*">
 - **script-src**: expanded to <script {src="*$content*"}></script>
 
-Recognised as single tags
-#########################
+Recognised as void elements (elements that do not close)
+########################################################
 
-br, css, hr, input, link, meta
-
-
-User documentation
-==============================================================================
+area, base, br, col, embed, hr, img, keygen, param, source, track,
+input (mapped content), link (mapped content), meta (mapped content),
+wbr
 
 
 Convert tuhinga templates with the python module
 ------------------------------------------------------------------------------
 
 Tuhinga is distributed as a single module and can be downloaded and
-used as a script directly. If you install Tuhinga into your system or
-virtualenv, you can use the **tuh** executable.
+used directly. If you install Tuhinga into your system or
+virtualenv, you can use the more convenient **tuh** executable script.
+If you use the module, simply replace **tuh** with **./tuhinga.py** in
+the instructions below.
 
 Converting a document is simple:
 
@@ -179,8 +181,8 @@ Install the tuh.vim syntax file into your .vim folder:
 
 .. code-block:: console
 
-   mkdir -p ~/.vim/syntax
-   cp tuh.vim ~/.vim/syntax
+   $ mkdir -p ~/.vim/syntax
+   $ cp tuh.vim ~/.vim/syntax
 
 And use it in your Vim buffer with ``:set filetype=tuh``
 
