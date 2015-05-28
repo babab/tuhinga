@@ -13,7 +13,8 @@ setup(
     download_url='https://pypi.python.org/pypi/tuhinga',
     py_modules=['tuhinga'],
     license='ISC',
-    long_description=open('README.rst').read(),
+    long_description='{}\n{}'.format(open('README.rst').read(),
+                                     open('CHANGELOG.rst').read()),
     platforms='any',
     scripts=['tuh'],
     data_files=[
