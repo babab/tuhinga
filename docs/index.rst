@@ -149,18 +149,17 @@ You can also read from stdinput:
 
 .. code-block:: console
 
-   $ cat somedocument.tuh | tuh > somedocument.html  # passing a file
-   $ tuh > somedocument.html # typing a doc directly in the terminal
+   $ cat somedocument.tuh | tuh -i > somedocument.html  # piped from program
+   $ tuh -i > somedocument.html # typing a doc directly in the terminal
 
-The Tuhinga module itself has no external dependencies. The Tuhinga
-webREPL is distributed independently and requires bottle.
+The Tuhinga webREPL is distributed independently and requires bottle,
+which is not installed by default.
 
 
 Download and install
 --------------------
 
-Tuhinga itself has no external dependencies. If you have pip installed,
-you can just:
+If you have pip installed, you can just:
 
 .. code-block:: console
 
@@ -172,7 +171,7 @@ To work with the current development version, do something like this:
 
    $ git clone git://bitbucket.org/babab/tuhinga.git
    # cd tuhinga
-   # python setup.py install
+   # python install --upgrade -e .
 
 
 Convert tuhinga templates with the instant webREPL
