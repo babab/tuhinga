@@ -1,6 +1,6 @@
 # vim: set et ts=4 sw=4 sts=4 ai:
 
-from distutils.core import setup
+from setuptools import setup
 import tuhinga
 
 setup(
@@ -41,6 +41,8 @@ setup(
         'Topic :: Text Processing :: Markup :: HTML',
         'Topic :: Text Processing :: Markup :: XML',
         'Topic :: Utilities',
+
+        'BLOCK FROM REGISTRATION/UPLOAD - REMOVE BEFORE SUBMIT',
     ],
     scripts=['tuh'],
 )
