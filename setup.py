@@ -51,7 +51,5 @@ setup(
         'Topic :: Text Processing :: Markup :: HTML',
         'Topic :: Text Processing :: Markup :: XML',
         'Topic :: Utilities',
-
-        'BLOCK FROM REGISTRATION/UPLOAD - REMOVE BEFORE SUBMIT',
     ],
 )
