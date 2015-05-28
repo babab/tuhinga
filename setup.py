@@ -16,11 +16,14 @@ setup(
     long_description=open('README.rst').read(),
     platforms='any',
     scripts=['tuh'],
-    data_files=[('/usr/share/tuhinga/examples',
-                 ['examples/bootstrap-navbar.tuh',
-                  'examples/dev-test.tuh',
-                  'examples/pretty-minimal.tuh',
-                  'examples/very-minimal.tuh'])],
+    data_files=[
+        ('share/tuhinga/examples', ['examples/bootstrap-navbar.tuh',
+                                    'examples/dev-test.tuh',
+                                    'examples/pretty-minimal.tuh',
+                                    'examples/very-minimal.tuh']),
+        ('share/tuhinga', ['LICENSE', 'README.rst', 'tuh.vim',
+                           'tuhinga_webrepl.py'])
+    ],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
