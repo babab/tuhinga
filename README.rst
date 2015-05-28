@@ -22,6 +22,9 @@ implementations.
 The implementation of Tuhinga is written in Python. Supported Python
 versions are 2.7 and 3.2 and later.
 
+- Github: http://github.com/babab/tuhinga
+- Bitbucket: http://bitbucket.org/babab/tuhinga
+
 
 A tuhinga example document
 ------------------------------------------------------------------------------

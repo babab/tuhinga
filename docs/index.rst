@@ -25,6 +25,9 @@ implementations.
 The implementation of Tuhinga is written in Python. Supported Python
 versions are 2.7 and 3.2 and later.
 
+- Github: http://github.com/babab/tuhinga
+- Bitbucket: http://bitbucket.org/babab/tuhinga
+
 
 A tuhinga example document
 ------------------------------------------------------------------------------
@@ -236,6 +239,9 @@ ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
 WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+
+.. include:: ../CHANGELOG.rst
 
 
 Developer documentation / API Reference
