@@ -25,6 +25,7 @@ setup(
         ('share/tuhinga', ['LICENSE', 'README.rst', 'tuh.vim',
                            'tuhinga_webrepl.py'])
     ],
+    install_requires=['pycommand'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
@@ -51,5 +52,7 @@ setup(
         'Topic :: Text Processing :: Markup :: HTML',
         'Topic :: Text Processing :: Markup :: XML',
         'Topic :: Utilities',
+
+        'BLOCK FOR UPLOAD',
     ],
 )

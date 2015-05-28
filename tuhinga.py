@@ -15,14 +15,17 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 import fileinput
+import sys
+
+import pycommand
 
 __docformat__ = 'restructuredtext'
 __author__ = "Benjamin Althues"
 __copyright__ = "Copyright (C) 2014-2015  Benjamin Althues"
-__version_info__ = (0, 1, 1, 'beta', 0)
-__version__ = '0.1.1'
+__version_info__ = (0, 2, 0, 'alpha', 0)
+__version__ = '0.2.0-dev'
 
-## Setting defaults ##########################################################
+# Setting defaults ###########################################################
 
 DEFAULT_INPUT_INDENT = 2
 '''The standard value of tuhinga's indentation is 2 spaces'''
@@ -30,7 +33,7 @@ DEFAULT_INPUT_INDENT = 2
 DEFAULT_OUTPUT_INDENT = 2
 '''The output can be set as a negative value to create condensed one liners'''
 
-## Default mapper for LexerXML ###############################################
+# Default mapper for LexerXML ################################################
 
 mapper = {
     'html5': {
@@ -116,7 +119,7 @@ Possible value of content:
 '''
 
 
-## Parser and Lexer objects ##################################################
+# Parser and Lexer objects ###################################################
 
 class LexerError(Exception):
     pass
@@ -348,7 +351,7 @@ class LexerXML:
         self.output += self._indent(indentlvl) + contents + newl
 
 
-## Shortcut functions ########################################################
+# Shortcut functions #########################################################
 
 def string(string, input_indent=DEFAULT_INPUT_INDENT,
            output_indent=DEFAULT_OUTPUT_INDENT):
@@ -370,11 +373,52 @@ def stdin(input_indent=DEFAULT_INPUT_INDENT,
     parser = Parser(input_indent=input_indent).fileinput()
     return LexerXML(parser, output_indent=output_indent).output
 
-## When invoked as script, read files or stdin ###############################
+
+# Command handler ############################################################
+
+class Command(pycommand.CommandBase):
+    '''Command handler for parsing arguments from shell and starting actions'''
+    description = 'Tuhinga Markup Language CLI'
+    optionList = (
+        ('stdin', ('i', False, 'read from standard input')),
+        ('help', ('h', False, 'show this help information')),
+        ('version', ('V', False, 'show version information')),
+    )
+    usageTextExtra = 'Specify one or more files or read from stdin with -i'
+
+    def __init__(self, *args, kwargs):
+        self.usagestr = ('usage: {name} [options] [<file>]'
+                         .format(name=kwargs['execname']))
+        super().__init__(*args)
+
+    def run(self):
+        if self.flags['help']:
+            print(self.usage)
+            return 0
+        elif self.flags['version']:
+            print('Tuhinga {} on Python {}'
+                  .format(__version__, sys.version.split()[0]))
+            return 0
+        elif self.flags['stdin']:
+            sys.argv = []  # reset sys.argv, prevent parsing "--stdin" filename
+            try:
+                print(stdin())
+            except KeyboardInterrupt:
+                print('Bye')
+                return 0
+            return 0
+
+        if not self.args:
+            print(self.usage)
+        else:
+            for f in self.args:
+                print(file(f))
+        return 0
 
 if __name__ == '__main__':
-    # print(file('examples/dev-test.tuh'))
-    try:
-        print(stdin())
-    except KeyboardInterrupt:
-        print('Bye')
+    cmd = Command(sys.argv[1:], execname=sys.argv[0])
+    if cmd.error:
+        print('error: {0}'.format(cmd.error))
+        sys.exit(1)
+    else:
+        sys.exit(cmd.run())
