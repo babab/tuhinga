@@ -171,6 +171,7 @@ To work with the current development version, do something like this:
 
    $ git clone git://bitbucket.org/babab/tuhinga.git
    # cd tuhinga
+   # python install -r requirements.txt
    # python install --upgrade -e .
 
 
