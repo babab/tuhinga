@@ -386,10 +386,10 @@ class Command(pycommand.CommandBase):
     )
     usageTextExtra = 'Specify one or more files or read from stdin with -i'
 
-    def __init__(self, *args, kwargs):
+    def __init__(self, *args, **kwargs):
         self.usagestr = ('usage: {name} [options] [<file>]'
                          .format(name=kwargs['execname']))
-        super().__init__(*args)
+        super(Command, self).__init__(*args)
 
     def run(self):
         if self.flags['help']:
