@@ -6,7 +6,7 @@ import tuhinga
 setup(
     name='tuhinga',
     version=tuhinga.__version__,
-    description=tuhinga.__doc__,
+    description='Minimalistic markup language that translates to XML/HTML',
     author=tuhinga.__author__,
     author_email='benjamin@babab.nl',
     url='http://github.com/babab/tuhinga',
@@ -15,6 +15,12 @@ setup(
     license='ISC',
     long_description=open('README.rst').read(),
     platforms='any',
+    scripts=['tuh'],
+    data_files=[('/usr/share/tuhinga/examples',
+                 ['examples/bootstrap-navbar.tuh',
+                  'examples/dev-test.tuh',
+                  'examples/pretty-minimal.tuh',
+                  'examples/very-minimal.tuh'])],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
@@ -44,5 +50,4 @@ setup(
 
         'BLOCK FROM REGISTRATION/UPLOAD - REMOVE BEFORE SUBMIT',
     ],
-    scripts=['tuh'],
 )
