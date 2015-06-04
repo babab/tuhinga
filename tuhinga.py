@@ -23,7 +23,7 @@ __docformat__ = 'restructuredtext'
 __author__ = "Benjamin Althues"
 __copyright__ = "Copyright (C) 2014-2015  Benjamin Althues"
 __version_info__ = (0, 2, 0, 'alpha', 0)
-__version__ = '0.2.0-dev'
+__version__ = '0.2.0'
 
 # Setting defaults ###########################################################
 
@@ -392,14 +392,14 @@ class Command(pycommand.CommandBase):
         super(Command, self).__init__(*args)
 
     def run(self):
-        if self.flags['help']:
+        if self.flags.help:
             print(self.usage)
             return 0
-        elif self.flags['version']:
+        elif self.flags.version:
             print('Tuhinga {} on Python {}'
                   .format(__version__, sys.version.split()[0]))
             return 0
-        elif self.flags['stdin']:
+        elif self.flags.stdin:
             sys.argv = []  # reset sys.argv, prevent parsing "--stdin" filename
             try:
                 print(stdin())

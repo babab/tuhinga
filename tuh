@@ -19,7 +19,7 @@ import sys
 import tuhinga
 
 if __name__ == '__main__':
-    cmd = tuhinga.Command(sys.argv[1:], execname=sys.argv[0])
+    cmd = tuhinga.Command(sys.argv[1:], execname='tuh')
     if cmd.error:
         print('error: {0}'.format(cmd.error))
         sys.exit(1)
