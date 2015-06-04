@@ -12,24 +12,21 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-from nose.tools import eq_, timed
+from nose.tools import eq_
 
 import tuhinga
 
 
-@timed(.005)
 def test_shortcut_string():
     html = tuhinga.string('html5\n  head\n')
     eq_(html, '<!doctype html>\n<html>\n  <head></head>\n</html>\n')
 
 
-@timed(.005)
 def test_shortcut_string_args():
     html = tuhinga.string('html5\n   head\n', input_indent=3, output_indent=8)
     eq_(html, '<!doctype html>\n<html>\n        <head></head>\n</html>\n')
 
 
-@timed(.005)
 def test_mapping():
     html = tuhinga.string('html5\n  body\n    input-checkbox test\n')
     comp = ('<!doctype html>\n<html>\n  <body>\n'
@@ -38,7 +35,6 @@ def test_mapping():
     eq_(html, comp)
 
 
-@timed(.005)
 def test_multiline_content():
     html = tuhinga.string('html5\n  body\n'
                           '    :: some test content\n'
