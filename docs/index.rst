@@ -2,12 +2,19 @@ Tuhinga markup language
 ==============================================================================
 
 .. image:: https://travis-ci.org/babab/tuhinga.svg?branch=master
-    :target: https://travis-ci.org/babab/tuhinga
-    :alt: Build Status
+   :target: https://travis-ci.org/babab/tuhinga
 
 .. image:: https://gemnasium.com/babab/tuhinga.svg
-    :target: https://gemnasium.com/babab/tuhinga
-    :alt: Dependency Status
+   :target: https://gemnasium.com/babab/tuhinga
+
+.. image:: https://img.shields.io/pypi/v/tuhinga.svg
+   :target: https://pypi.python.org/pypi/tuhinga/
+
+.. image:: https://img.shields.io/pypi/dm/tuhinga.svg
+   :target: https://pypi.python.org/pypi/tuhinga/
+
+.. image:: https://img.shields.io/pypi/l/tuhinga.svg
+   :target: https://pypi.python.org/pypi/tuhinga/
 
 .. toctree::
    :maxdepth: 2
