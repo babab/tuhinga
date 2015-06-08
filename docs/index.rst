@@ -3,6 +3,11 @@ Tuhinga markup language
 
 .. image:: https://travis-ci.org/babab/tuhinga.svg?branch=master
     :target: https://travis-ci.org/babab/tuhinga
+    :alt: Build Status
+
+.. image:: https://gemnasium.com/babab/tuhinga.svg
+    :target: https://gemnasium.com/babab/tuhinga
+    :alt: Dependency Status
 
 .. toctree::
    :maxdepth: 2

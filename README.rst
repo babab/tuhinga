@@ -3,6 +3,11 @@ Tuhinga
 
 .. image:: https://travis-ci.org/babab/tuhinga.svg?branch=master
     :target: https://travis-ci.org/babab/tuhinga
+    :alt: Build Status
+
+.. image:: https://gemnasium.com/babab/tuhinga.svg
+    :target: https://gemnasium.com/babab/tuhinga
+    :alt: Dependency Status
 
 Tuhinga is a minimalistic markup language that translates to XML/HTML.
 It can help you reduce typing and quicken the editing process of HTML
