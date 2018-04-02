@@ -1,0 +1,458 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Tuhinga markup language &#8212; tuhinga 0.1.1 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="#">tuhinga 0.1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tuhinga-markup-language">
+<h1>Tuhinga markup language<a class="headerlink" href="#tuhinga-markup-language" title="Permalink to this headline">¶</a></h1>
+<a class="reference external image-reference" href="https://travis-ci.org/babab/tuhinga"><img alt="https://travis-ci.org/babab/tuhinga.svg?branch=master" src="https://travis-ci.org/babab/tuhinga.svg?branch=master" /></a>
+<a class="reference external image-reference" href="https://gemnasium.com/babab/tuhinga"><img alt="https://gemnasium.com/babab/tuhinga.svg" src="https://gemnasium.com/babab/tuhinga.svg" /></a>
+<a class="reference external image-reference" href="https://pypi.python.org/pypi/tuhinga/"><img alt="https://img.shields.io/pypi/v/tuhinga.svg" src="https://img.shields.io/pypi/v/tuhinga.svg" /></a>
+<a class="reference external image-reference" href="https://pypi.python.org/pypi/tuhinga/"><img alt="https://img.shields.io/pypi/dm/tuhinga.svg" src="https://img.shields.io/pypi/dm/tuhinga.svg" /></a>
+<a class="reference external image-reference" href="https://pypi.python.org/pypi/tuhinga/"><img alt="https://img.shields.io/pypi/l/tuhinga.svg" src="https://img.shields.io/pypi/l/tuhinga.svg" /></a>
+<div class="toctree-wrapper compound">
+</div>
+<p>Tuhinga is a minimalistic markup language that translates to XML/HTML.
+It can help you reduce typing and quicken the editing process of HTML
+pages. It may remind you a little of HAML since it shares a few common
+concepts, but it has different goals. HAML is essentially a template
+language, while tuhinga is a tiny markup language primarily aimed to be
+just a precursor for XML/HTML documents.</p>
+<p>The only true goal of Tuhinga is <strong>conciseness</strong>. And this is also
+where it stands out against other solutions. It is the prettiest.
+This means it may never support XML and HTML for the full 100%, since
+that would cause the need for a much more expansive syntax. Use it if
+you think HAML is a good idea, but not beatiful enough. Otherwise I’d
+advise to just use HAML, since it is much more mature and has numerous
+implementations.</p>
+<p>The implementation of Tuhinga is written in Python. Supported Python
+versions are 2.7 and 3.2 and later.</p>
+<ul class="simple">
+<li>Github: <a class="reference external" href="http://github.com/babab/tuhinga">http://github.com/babab/tuhinga</a></li>
+<li>Bitbucket: <a class="reference external" href="http://bitbucket.org/babab/tuhinga">http://bitbucket.org/babab/tuhinga</a></li>
+</ul>
+<div class="section" id="a-tuhinga-example-document">
+<h2>A tuhinga example document<a class="headerlink" href="#a-tuhinga-example-document" title="Permalink to this headline">¶</a></h2>
+<p>An example of a HTML5 (*.tuh) document:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">;</span> <span class="n">Comments</span> <span class="n">start</span> <span class="k">with</span> <span class="p">;</span>
+
+<span class="n">html5</span>
+  <span class="n">head</span>
+    <span class="n">meta</span><span class="o">-</span><span class="n">charset</span> <span class="n">utf</span><span class="o">-</span><span class="mi">8</span>
+    <span class="n">meta</span> <span class="p">:</span><span class="n">name</span><span class="o">=</span><span class="n">viewport</span> <span class="n">device</span><span class="o">-</span><span class="n">width</span><span class="p">,</span> <span class="n">initial</span><span class="o">-</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span>
+    <span class="n">title</span> <span class="n">Page</span> <span class="n">title</span>
+  <span class="n">body</span>
+    <span class="c1">#main.container</span>
+      <span class="n">h1</span><span class="o">.</span><span class="n">page</span><span class="o">-</span><span class="n">header</span> <span class="n">Page</span> <span class="n">title</span>
+      <span class="o">.</span><span class="n">row</span>
+        <span class="o">.</span><span class="n">col</span><span class="o">-</span><span class="n">lg</span><span class="o">-</span><span class="mi">12</span>
+          <span class="n">p</span> <span class="n">Paragraph</span> <span class="n">line</span> <span class="mi">1</span>
+            <span class="p">::</span> <span class="n">line</span> <span class="mi">2</span>
+            <span class="p">::</span> <span class="n">line</span> <span class="mi">3</span>
+            <span class="n">small</span> <span class="n">line</span> <span class="mi">4</span>
+          <span class="n">p</span>
+            <span class="p">::</span> <span class="n">line</span> <span class="mi">1</span>
+            <span class="p">::</span> <span class="n">line</span> <span class="mi">2</span>
+    <span class="c1">#footer.container</span>
+      <span class="n">p</span><span class="o">.</span><span class="n">muted</span> <span class="n">Copyright</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="mi">2015</span> <span class="n">Me</span>
+</pre></div>
+</div>
+<p>After converting to HTML:</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;!doctype html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;device-width, initial-scale=1.0&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Page title<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;main&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;page-header&quot;</span><span class="p">&gt;</span>Page title<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;row&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;col-lg-12&quot;</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+            Paragraph line 1
+            line 2
+            line 3
+            <span class="p">&lt;</span><span class="nt">small</span><span class="p">&gt;</span>line 4<span class="p">&lt;/</span><span class="nt">small</span><span class="p">&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+            line 1
+            line 2
+          <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;footer&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;muted&quot;</span><span class="p">&gt;</span>Copyright <span class="ni">&amp;amp;</span> 2015 Me<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>The tuhinga equivalent of any HTML output uses roughly 33% less
+characters, and not a single angle bracket.</p>
+</div>
+<div class="section" id="using-tuhinga-to-write-xml-html5">
+<h2>Using Tuhinga to write XML / HTML5<a class="headerlink" href="#using-tuhinga-to-write-xml-html5" title="Permalink to this headline">¶</a></h2>
+<p>The handling of certain symbols like <cite>js</cite>, <cite>meta</cite>, <cite>input</cite> and other
+void elements and the <em>$content</em> that follows is done by applying a
+set of rules, called a mapping. All other elements are treated with
+the default handling of the Lexer (currently there is only a XML/HTML
+Lexer).</p>
+<p>What follows are the rules that are applied with the default mapping.
+You can alter how these mappings work though. This means you can easily
+add your own symbols.</p>
+<div class="section" id="special-symbols">
+<h3>Special symbols<a class="headerlink" href="#special-symbols" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>html5</strong>: sets doctype; is expanded to &lt;!doctype html&gt;&lt;html&gt; … &lt;/html&gt;</li>
+<li><strong>css</strong>: expanded to &lt;link rel=”stylesheet” {href=”<em>$content</em>”}&gt;</li>
+<li><strong>input</strong>: expanded to &lt;input {value=”<em>$content</em>”}&gt;</li>
+<li><strong>input-*</strong>: expanded to &lt;input type=”*” {value=”<em>$content</em>”}&gt;</li>
+<li><strong>js</strong>: an alternative for writing <strong>script-src</strong></li>
+<li><strong>link</strong>: expanded to &lt;link {href=”<em>$content</em>”}&gt;</li>
+<li><strong>meta</strong>: expanded to &lt;meta {content=”<em>$content</em>”}&gt;</li>
+<li><strong>meta-charset</strong>: expanded to &lt;meta charset=”<em>$content</em>”&gt;</li>
+<li><strong>script-src</strong>: expanded to &lt;script {src=”<em>$content</em>”}&gt;&lt;/script&gt;</li>
+</ul>
+</div>
+<div class="section" id="recognised-as-void-elements-elements-that-do-not-close">
+<h3>Recognised as void elements (elements that do not close)<a class="headerlink" href="#recognised-as-void-elements-elements-that-do-not-close" title="Permalink to this headline">¶</a></h3>
+<p>area, base, br, col, embed, hr, img, keygen, param, source, track,
+input (mapped content), link (mapped content), meta (mapped content),
+wbr</p>
+</div>
+</div>
+<div class="section" id="convert-tuhinga-templates-with-the-python-module">
+<h2>Convert tuhinga templates with the python module<a class="headerlink" href="#convert-tuhinga-templates-with-the-python-module" title="Permalink to this headline">¶</a></h2>
+<p>Tuhinga is distributed as a single module and can be downloaded and
+used directly. If you install Tuhinga into your system or
+virtualenv, you can use the more convenient <strong>tuh</strong> executable script.
+If you use the module, simply replace <strong>tuh</strong> with <strong>./tuhinga.py</strong> in
+the instructions below.</p>
+<p>Converting a document is simple:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> tuh somedocument.tuh &gt; somedocument.html
+</pre></div>
+</div>
+<p>You can also read from stdinput:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> cat somedocument.tuh <span class="p">|</span> tuh -i &gt; somedocument.html  <span class="c1"># piped from program</span>
+<span class="gp">$</span> tuh -i &gt; somedocument.html <span class="c1"># typing a doc directly in the terminal</span>
+</pre></div>
+</div>
+<p>The Tuhinga webREPL is distributed independently and requires bottle,
+which is not installed by default.</p>
+</div>
+<div class="section" id="download-and-install">
+<h2>Download and install<a class="headerlink" href="#download-and-install" title="Permalink to this headline">¶</a></h2>
+<p>If you have pip installed, you can just:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">#</span> pip install tuhinga
+</pre></div>
+</div>
+<p>To work with the current development version, do something like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> git clone git://bitbucket.org/babab/tuhinga.git
+<span class="gp">#</span> <span class="nb">cd</span> tuhinga
+<span class="gp">#</span> pip install -r requirements.txt
+<span class="gp">#</span> pip install --upgrade -e .
+</pre></div>
+</div>
+</div>
+<div class="section" id="convert-tuhinga-templates-with-the-instant-webrepl">
+<h2>Convert tuhinga templates with the instant webREPL<a class="headerlink" href="#convert-tuhinga-templates-with-the-instant-webrepl" title="Permalink to this headline">¶</a></h2>
+<p>Use the webREPL as an easy way to fiddle around with writing tuhinga
+documents or use it as a serious tool to quickly write up your pages. It
+will give instant feedback of the output after each keystroke.</p>
+<p>The webREPL is written using the bottle Python micro-framework, which is
+not a dependency of tuhinga itself. Therefore, you must be sure to have
+bottle installed if you wish to use it.</p>
+<div class="section" id="install-bottle-in-a-virtualenv">
+<h3>Install bottle (in a virtualenv)<a class="headerlink" href="#install-bottle-in-a-virtualenv" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install bottle
+</pre></div>
+</div>
+</div>
+<div class="section" id="run-the-webrepl">
+<h3>Run the webREPL<a class="headerlink" href="#run-the-webrepl" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> ./tuhinga_webrepl.py
+</pre></div>
+</div>
+<p>Now you can visit <em>http://localhost:8080/</em> and play around.</p>
+</div>
+</div>
+<div class="section" id="syntax-file-for-vim">
+<h2>Syntax file for Vim<a class="headerlink" href="#syntax-file-for-vim" title="Permalink to this headline">¶</a></h2>
+<p>If you use Vim for your editing, you can install the syntax file to have
+pretty syntax highlighting for Tuturu (*.tuh) documents. It’s my first
+go at writing a syntax.vim file and it currently has some small bugs,
+which should probably be resolved soon.</p>
+<img alt="http://i.imgur.com/uqpEpjN.png" src="http://i.imgur.com/uqpEpjN.png" />
+<p>Install the tuh.vim syntax file into your .vim folder:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> mkdir -p ~/.vim/syntax
+<span class="gp">$</span> cp tuh.vim ~/.vim/syntax
+</pre></div>
+</div>
+<p>And use it in your Vim buffer with <code class="docutils literal notranslate"><span class="pre">:set</span> <span class="pre">filetype=tuh</span></code></p>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2014-2015 Benjamin Althues &lt;<a class="reference external" href="mailto:benjamin&#37;&#52;&#48;babab&#46;nl">benjamin<span>&#64;</span>babab<span>&#46;</span>nl</a>&gt;</p>
+<p>Permission to use, copy, modify, and distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.</p>
+<p>THE SOFTWARE IS PROVIDED “AS IS” AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.</p>
+</div>
+</div>
+<div class="section" id="change-log">
+<h1>Change Log<a class="headerlink" href="#change-log" title="Permalink to this headline">¶</a></h1>
+<p>All notable changes to tuhinga will be documented here. The project
+adheres to <a class="reference external" href="http://semver.org/">Semantic Versioning</a>.</p>
+<div class="section" id="id1">
+<h2>0.1.1 - 2013-05-28<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="added">
+<h3>Added<a class="headerlink" href="#added" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Package as (source and) wheel distribution to speed up installations</li>
+<li>This CHANGELOG</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>0.1.0 - 2013-05-21<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Added<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Initial release</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="developer-documentation-api-reference">
+<h1>Developer documentation / API Reference<a class="headerlink" href="#developer-documentation-api-reference" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="shortcut-functions">
+<h2>Shortcut functions<a class="headerlink" href="#shortcut-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="tuhinga.file">
+<code class="descclassname">tuhinga.</code><code class="descname">file</code><span class="sig-paren">(</span><em>filelocation</em>, <em>input_indent=2</em>, <em>output_indent=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tuhinga.html#file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tuhinga.file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut for parsing, lexing and mapping a document from file</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tuhinga.string">
+<code class="descclassname">tuhinga.</code><code class="descname">string</code><span class="sig-paren">(</span><em>string</em>, <em>input_indent=2</em>, <em>output_indent=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tuhinga.html#string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tuhinga.string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut for parsing, lexing and mapping a document from a string</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tuhinga.stdin">
+<code class="descclassname">tuhinga.</code><code class="descname">stdin</code><span class="sig-paren">(</span><em>input_indent=2</em>, <em>output_indent=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tuhinga.html#stdin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tuhinga.stdin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut for parsing, lexing and mapping from stdin/fileinput</p>
+</dd></dl>
+
+</div>
+<div class="section" id="default-settings">
+<h2>Default settings<a class="headerlink" href="#default-settings" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="tuhinga.DEFAULT_INPUT_INDENT">
+<code class="descclassname">tuhinga.</code><code class="descname">DEFAULT_INPUT_INDENT</code><em class="property"> = 2</em><a class="headerlink" href="#tuhinga.DEFAULT_INPUT_INDENT" title="Permalink to this definition">¶</a></dt>
+<dd><p>The standard value of tuhinga’s indentation is 2 spaces</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="tuhinga.DEFAULT_OUTPUT_INDENT">
+<code class="descclassname">tuhinga.</code><code class="descname">DEFAULT_OUTPUT_INDENT</code><em class="property"> = 2</em><a class="headerlink" href="#tuhinga.DEFAULT_OUTPUT_INDENT" title="Permalink to this definition">¶</a></dt>
+<dd><p>The output can be set as a negative value to create condensed one liners</p>
+</dd></dl>
+
+</div>
+<div class="section" id="parser-and-lexer-objects">
+<h2>Parser and Lexer objects<a class="headerlink" href="#parser-and-lexer-objects" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="tuhinga.Parser">
+<em class="property">class </em><code class="descclassname">tuhinga.</code><code class="descname">Parser</code><span class="sig-paren">(</span><em>input_indent=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tuhinga.html#Parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tuhinga.Parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a tuhinga doc and create nodes to be processed with a lexer</p>
+<dl class="method">
+<dt id="tuhinga.Parser.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tuhinga.html#Parser.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tuhinga.Parser.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close all open nodes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tuhinga.Parser.file">
+<code class="descname">file</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tuhinga.html#Parser.file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tuhinga.Parser.file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a complete tuhinga document by filename</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tuhinga.Parser.fileinput">
+<code class="descname">fileinput</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tuhinga.html#Parser.fileinput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tuhinga.Parser.fileinput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse stdin or files with the fileinput module</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tuhinga.Parser.parseLine">
+<code class="descname">parseLine</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tuhinga.html#Parser.parseLine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tuhinga.Parser.parseLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a single line of tuhinga markup</p>
+<p>Make sure to run close() after the last call to parseLine.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tuhinga.Parser.string">
+<code class="descname">string</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tuhinga.html#Parser.string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tuhinga.Parser.string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a complete tuhinga document as string</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tuhinga.LexerXML">
+<em class="property">class </em><code class="descclassname">tuhinga.</code><code class="descname">LexerXML</code><span class="sig-paren">(</span><em>parser</em>, <em>output_indent=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tuhinga.html#LexerXML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tuhinga.LexerXML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lexical compilation of parsed nodes to XML markup</p>
+</dd></dl>
+
+</div>
+<div class="section" id="default-mapper">
+<h2>Default mapper<a class="headerlink" href="#default-mapper" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="tuhinga.mapper">
+<code class="descclassname">tuhinga.</code><code class="descname">mapper</code><em class="property"> = {'html5': {'area': {'v': True}, 'base': {'v': True}, 'br': {'v': True}, 'col': {'v': True}, 'embed': {'v': True}, 'hr': {'v': True}, 'img': {'v': True}, 'keygen': {'v': True}, 'param': {'v': True}, 'source': {'v': True}, 'track': {'v': True}, 'wbr': {'v': True}, 'css': {'v': True, 'e': 'link', 'c': 'href', 'h': 'rel=&quot;stylesheet&quot;'}, 'input': {'v': True, 'c': 'value'}, 'input-button': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;button&quot;'}, 'input-checkbox': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;checkbox&quot;'}, 'input-color': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;color&quot;'}, 'input-date': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;date&quot;'}, 'input-datetime': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;datetime&quot;'}, 'input-datetime-local': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;datetime-local&quot;'}, 'input-email': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;email&quot;'}, 'input-file': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;file&quot;'}, 'input-hidden': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;hidden&quot;'}, 'input-image': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;image&quot;'}, 'input-month': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;month&quot;'}, 'input-number': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;number&quot;'}, 'input-password': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;password&quot;'}, 'input-radio': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;radio&quot;'}, 'input-range': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;range&quot;'}, 'input-reset': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;reset&quot;'}, 'input-search': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;search&quot;'}, 'input-submit': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;submit&quot;'}, 'input-tel': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;tel&quot;'}, 'input-text': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;text&quot;'}, 'input-time': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;time&quot;'}, 'input-url': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;url&quot;'}, 'input-week': {'v': True, 'e': 'input', 'c': 'value', 'h': 'type=&quot;week&quot;'}, 'js': {'e': 'script', 'c': 'src', 'h': 'type=&quot;text/javascript&quot;'}, 'link': {'v': True, 'c': 'href'}, 'meta': {'v': True, 'c': 'content'}, 'meta-charset': {'v': True, 'e': 'meta', 'c': 'charset'}, 'script-src': {'e': 'script', 'c': 'src'}}}</em><a class="headerlink" href="#tuhinga.mapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mapping of contents to arguments / list of void elements</p>
+<dl class="docutils">
+<dt>Possible keys:</dt>
+<dd><ul class="first last simple">
+<li>‘v’: True if void element like &lt;meta&gt;. Default = false</li>
+<li>‘e’: HTML element. Default = &lt;name_of_dict_key&gt;</li>
+<li>‘c’: Content mapping, see below. Default = ‘&gt;’</li>
+<li>‘h’: Extra html arguments. Default = false</li>
+</ul>
+</dd>
+<dt>Possible value of content:</dt>
+<dd><ul class="first last simple">
+<li>‘&gt;’: print contents after start tag (default)</li>
+<li>‘-‘: strip any contents</li>
+<li>‘some-string’: map any contents to an html argument</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tuhinga markup language</a><ul>
+<li><a class="reference internal" href="#a-tuhinga-example-document">A tuhinga example document</a></li>
+<li><a class="reference internal" href="#using-tuhinga-to-write-xml-html5">Using Tuhinga to write XML / HTML5</a><ul>
+<li><a class="reference internal" href="#special-symbols">Special symbols</a></li>
+<li><a class="reference internal" href="#recognised-as-void-elements-elements-that-do-not-close">Recognised as void elements (elements that do not close)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#convert-tuhinga-templates-with-the-python-module">Convert tuhinga templates with the python module</a></li>
+<li><a class="reference internal" href="#download-and-install">Download and install</a></li>
+<li><a class="reference internal" href="#convert-tuhinga-templates-with-the-instant-webrepl">Convert tuhinga templates with the instant webREPL</a><ul>
+<li><a class="reference internal" href="#install-bottle-in-a-virtualenv">Install bottle (in a virtualenv)</a></li>
+<li><a class="reference internal" href="#run-the-webrepl">Run the webREPL</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#syntax-file-for-vim">Syntax file for Vim</a></li>
+<li><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#change-log">Change Log</a><ul>
+<li><a class="reference internal" href="#id1">0.1.1 - 2013-05-28</a><ul>
+<li><a class="reference internal" href="#added">Added</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id2">0.1.0 - 2013-05-21</a><ul>
+<li><a class="reference internal" href="#id3">Added</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#developer-documentation-api-reference">Developer documentation / API Reference</a><ul>
+<li><a class="reference internal" href="#shortcut-functions">Shortcut functions</a></li>
+<li><a class="reference internal" href="#default-settings">Default settings</a></li>
+<li><a class="reference internal" href="#parser-and-lexer-objects">Parser and Lexer objects</a></li>
+<li><a class="reference internal" href="#default-mapper">Default mapper</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="#">tuhinga 0.1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014-2015, Benjamin Althues.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,454 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>tuhinga &#8212; tuhinga 0.1.1 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">tuhinga 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for tuhinga</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="c1"># Copyright (c) 2014-2015 Benjamin Althues &lt;benjamin@babab.nl&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># Permission to use, copy, modify, and distribute this software for any</span>
+<span class="c1"># purpose with or without fee is hereby granted, provided that the above</span>
+<span class="c1"># copyright notice and this permission notice appear in all copies.</span>
+<span class="c1">#</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL WARRANTIES</span>
+<span class="c1"># WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF</span>
+<span class="c1"># MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR</span>
+<span class="c1"># ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES</span>
+<span class="c1"># WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN</span>
+<span class="c1"># ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF</span>
+<span class="c1"># OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.</span>
+
+<span class="kn">import</span> <span class="nn">fileinput</span>
+
+<span class="n">__docformat__</span> <span class="o">=</span> <span class="s1">&#39;restructuredtext&#39;</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Benjamin Althues&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright (C) 2014-2015  Benjamin Althues&quot;</span>
+<span class="n">__version_info__</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;0.1.1&#39;</span>
+
+<span class="c1">## Setting defaults ##########################################################</span>
+
+<span class="n">DEFAULT_INPUT_INDENT</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="sd">&#39;&#39;&#39;The standard value of tuhinga&#39;s indentation is 2 spaces&#39;&#39;&#39;</span>
+
+<span class="n">DEFAULT_OUTPUT_INDENT</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="sd">&#39;&#39;&#39;The output can be set as a negative value to create condensed one liners&#39;&#39;&#39;</span>
+
+<span class="c1">## Default mapper for LexerXML ###############################################</span>
+
+<span class="n">mapper</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;html5&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;area&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+        <span class="s1">&#39;base&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+        <span class="s1">&#39;br&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+        <span class="s1">&#39;col&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+        <span class="s1">&#39;embed&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+        <span class="s1">&#39;hr&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+        <span class="s1">&#39;img&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+        <span class="s1">&#39;keygen&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+        <span class="s1">&#39;param&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+        <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+        <span class="s1">&#39;track&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+        <span class="s1">&#39;wbr&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+        <span class="s1">&#39;css&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;link&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;href&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;rel=&quot;stylesheet&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-button&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;button&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-checkbox&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;checkbox&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-color&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;color&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-date&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;date&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-datetime&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;datetime&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-datetime-local&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                                 <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;datetime-local&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-email&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;email&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-file&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;file&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-hidden&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;hidden&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-image&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;image&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-month&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;month&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-number&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;number&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-password&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;password&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-radio&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;radio&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-range&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;range&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-reset&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;reset&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-search&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;search&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-submit&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;submit&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-tel&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;tel&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-text&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;text&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-time&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;time&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-url&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;url&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;input-week&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;week&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;js&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;script&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;type=&quot;text/javascript&quot;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;link&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;href&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;meta&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;content&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;meta-charset&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;meta&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;charset&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;script-src&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;script&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;src&#39;</span><span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+<span class="sd">&#39;&#39;&#39;Mapping of contents to arguments / list of void elements</span>
+
+<span class="sd">Possible keys:</span>
+<span class="sd">    - &#39;v&#39;: True if void element like &lt;meta&gt;. Default = false</span>
+<span class="sd">    - &#39;e&#39;: HTML element. Default = &lt;name_of_dict_key&gt;</span>
+<span class="sd">    - &#39;c&#39;: Content mapping, see below. Default = &#39;&gt;&#39;</span>
+<span class="sd">    - &#39;h&#39;: Extra html arguments. Default = false</span>
+
+<span class="sd">Possible value of content:</span>
+<span class="sd">    - &#39;&gt;&#39;: print contents after start tag (default)</span>
+<span class="sd">    - &#39;-&#39;: strip any contents</span>
+<span class="sd">    - &#39;some-string&#39;: map any contents to an html argument</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<span class="c1">## Parser and Lexer objects ##################################################</span>
+
+<span class="k">class</span> <span class="nc">LexerError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<div class="viewcode-block" id="Parser"><a class="viewcode-back" href="../index.html#tuhinga.Parser">[docs]</a><span class="k">class</span> <span class="nc">Parser</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;Parse a tuhinga doc and create nodes to be processed with a lexer&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_indent</span><span class="o">=</span><span class="n">DEFAULT_INPUT_INDENT</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Handle args and initialize instance variables&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_indent</span> <span class="o">=</span> <span class="n">input_indent</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">latest_indentlvl</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lineno</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_indentlvl</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parsed</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parsed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Parser.string"><a class="viewcode-back" href="../index.html#tuhinga.Parser.string">[docs]</a>    <span class="k">def</span> <span class="nf">string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Parse a complete tuhinga document as string&#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parseLine</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Parser.file"><a class="viewcode-back" href="../index.html#tuhinga.Parser.file">[docs]</a>    <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Parse a complete tuhinga document by filename&#39;&#39;&#39;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parseLine</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Parser.fileinput"><a class="viewcode-back" href="../index.html#tuhinga.Parser.fileinput">[docs]</a>    <span class="k">def</span> <span class="nf">fileinput</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Parse stdin or files with the fileinput module&#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fileinput</span><span class="o">.</span><span class="n">input</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parseLine</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Parser.close"><a class="viewcode-back" href="../index.html#tuhinga.Parser.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Close all open nodes&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_closeNodes</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Parser.parseLine"><a class="viewcode-back" href="../index.html#tuhinga.Parser.parseLine">[docs]</a>    <span class="k">def</span> <span class="nf">parseLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Parse a single line of tuhinga markup</span>
+
+<span class="sd">        Make sure to run close() after the last call to parseLine.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lineno</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">indentlvl</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()))</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_indent</span><span class="p">)</span>
+        <span class="n">splitted</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+        <span class="c1"># Skip empty lines and comment lines</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">splitted</span> <span class="ow">or</span> <span class="n">splitted</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="c1"># parse element, id and classes</span>
+        <span class="n">identifier</span> <span class="o">=</span> <span class="n">splitted</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">_id</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">_class</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="s1">&#39;#&#39;</span> <span class="ow">in</span> <span class="n">identifier</span><span class="p">:</span>
+            <span class="n">element</span> <span class="o">=</span> <span class="n">identifier</span><span class="p">[:</span><span class="n">identifier</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="s1">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">identifier</span><span class="p">:</span>
+                <span class="n">_id</span> <span class="o">=</span> <span class="n">identifier</span><span class="p">[</span><span class="n">identifier</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">identifier</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)]</span>
+                <span class="n">_class</span> <span class="o">=</span> <span class="n">identifier</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">_id</span> <span class="o">=</span> <span class="n">identifier</span><span class="p">[</span><span class="n">identifier</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
+        <span class="k">elif</span> <span class="s1">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">identifier</span><span class="p">:</span>
+            <span class="n">element</span> <span class="o">=</span> <span class="n">identifier</span><span class="p">[:</span><span class="n">identifier</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)]</span>
+            <span class="n">_class</span> <span class="o">=</span> <span class="n">identifier</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">element</span> <span class="o">=</span> <span class="n">identifier</span>
+
+        <span class="k">if</span> <span class="n">identifier</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">identifier</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+            <span class="n">element</span> <span class="o">=</span> <span class="s1">&#39;div&#39;</span>
+
+        <span class="c1"># parse content and arguments</span>
+        <span class="n">remainder</span> <span class="o">=</span> <span class="n">splitted</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># If a word starts with &#39;:&#39; and is not an argument,</span>
+        <span class="c1"># it should be escaped &#39;\:&#39;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">remainder</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">):</span>
+                <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">content</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;indentlvl&#39;</span><span class="p">:</span> <span class="n">indentlvl</span><span class="p">,</span>
+            <span class="s1">&#39;element&#39;</span><span class="p">:</span> <span class="n">element</span><span class="p">,</span>
+            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">_id</span><span class="p">,</span>
+            <span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="n">_class</span><span class="p">,</span>
+            <span class="s1">&#39;arguments&#39;</span><span class="p">:</span> <span class="n">args</span><span class="p">,</span>
+            <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">content</span><span class="p">),</span>
+            <span class="s1">&#39;line&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lineno</span><span class="p">,</span>
+            <span class="s1">&#39;splitted&#39;</span><span class="p">:</span> <span class="n">splitted</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="c1"># register node to handle the tree structure</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_registerNode</span><span class="p">(</span><span class="n">indentlvl</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="k">def</span> <span class="nf">_registerNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indentlvl</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">indentlvl</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_indentlvl</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_closeNodes</span><span class="p">(</span><span class="n">indentlvl</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">parsed</span><span class="p">[</span><span class="n">indentlvl</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">latest_indentlvl</span> <span class="o">=</span> <span class="n">indentlvl</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_indentlvl</span> <span class="o">=</span> <span class="n">indentlvl</span>
+
+    <span class="k">def</span> <span class="nf">_closeNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indentlvl</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parsed</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">latest_indentlvl</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">99</span><span class="p">,</span> <span class="n">indentlvl</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parsed</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parsed</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parsed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="LexerXML"><a class="viewcode-back" href="../index.html#tuhinga.LexerXML">[docs]</a><span class="k">class</span> <span class="nc">LexerXML</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;Lexical compilation of parsed nodes to XML markup&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">,</span> <span class="n">output_indent</span><span class="o">=</span><span class="n">DEFAULT_OUTPUT_INDENT</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Object init is the only public method&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doctype</span> <span class="o">=</span> <span class="s1">&#39;html5&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_indent</span> <span class="o">=</span> <span class="n">output_indent</span>
+
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">parser</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">next_lvl</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;indentlvl&#39;</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">LexerError</span><span class="p">(</span><span class="s1">&#39;Markup Tree Error: parser did not &#39;</span>
+                                     <span class="s1">&#39;properly close all nodes&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_startNode</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">next_lvl</span><span class="o">=</span><span class="n">next_lvl</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_endNode</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">_startNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">next_lvl</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">is_element</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># defaults, possibly overridden by mapping</span>
+        <span class="n">element</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;element&#39;</span><span class="p">]</span>
+        <span class="n">content_dest</span> <span class="o">=</span> <span class="s1">&#39;&gt;&#39;</span>
+        <span class="n">extra_args</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">void_elem</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;element&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">mapper</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">doctype</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="c1"># apply mapping</span>
+            <span class="k">if</span> <span class="s1">&#39;e&#39;</span> <span class="ow">in</span> <span class="n">mapper</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">doctype</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;element&#39;</span><span class="p">]]:</span>
+                <span class="n">element</span> <span class="o">=</span> <span class="n">mapper</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">doctype</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;element&#39;</span><span class="p">]][</span><span class="s1">&#39;e&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;v&#39;</span> <span class="ow">in</span> <span class="n">mapper</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">doctype</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;element&#39;</span><span class="p">]]:</span>
+                <span class="n">void_elem</span> <span class="o">=</span> <span class="n">mapper</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">doctype</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;element&#39;</span><span class="p">]][</span><span class="s1">&#39;v&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;c&#39;</span> <span class="ow">in</span> <span class="n">mapper</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">doctype</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;element&#39;</span><span class="p">]]:</span>
+                <span class="n">content_dest</span> <span class="o">=</span> <span class="n">mapper</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">doctype</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;element&#39;</span><span class="p">]][</span><span class="s1">&#39;c&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;h&#39;</span> <span class="ow">in</span> <span class="n">mapper</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">doctype</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;element&#39;</span><span class="p">]]:</span>
+                <span class="n">extra_args</span> <span class="o">=</span> <span class="n">mapper</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">doctype</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;element&#39;</span><span class="p">]][</span><span class="s1">&#39;h&#39;</span><span class="p">]</span>
+
+        <span class="c1"># hardcoded special elements</span>
+        <span class="k">if</span> <span class="n">element</span> <span class="o">==</span> <span class="s1">&#39;html5&#39;</span><span class="p">:</span>
+            <span class="c1"># Do not print a newline if output_indent setting &lt;= -1</span>
+            <span class="n">newl</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_indent</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_addOutput</span><span class="p">(</span>
+                <span class="n">data</span><span class="p">[</span><span class="s1">&#39;indentlvl&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;&lt;!doctype html&gt;</span><span class="si">{newl}{indent}</span><span class="s1">&lt;html&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">newl</span><span class="o">=</span><span class="n">newl</span><span class="p">,</span>
+                    <span class="n">indent</span><span class="o">=</span><span class="p">((</span><span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_indent</span><span class="p">)</span> <span class="o">*</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;indentlvl&#39;</span><span class="p">])</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">elif</span> <span class="n">element</span> <span class="o">==</span> <span class="s1">&#39;::&#39;</span><span class="p">:</span>
+            <span class="n">is_element</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">is_element</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;&lt;&#39;</span> <span class="o">+</span> <span class="n">element</span>  <span class="c1"># Begin start tag</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39; id=&quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]:</span>
+                <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39; class=&quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]))</span>
+
+            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39; </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">extra_args</span><span class="p">)</span> <span class="k">if</span> <span class="n">extra_args</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;arguments&#39;</span><span class="p">]:</span>
+                <span class="n">arg</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)</span>
+                <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39; </span><span class="si">{}</span><span class="s1">=&quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="c1"># Use content as argument according to mapping</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">content_dest</span> <span class="o">!=</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="n">content_dest</span> <span class="o">!=</span> <span class="s1">&#39;-&#39;</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39; </span><span class="si">{}</span><span class="s1">=&quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">content_dest</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">])</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;&gt;&#39;</span>  <span class="c1"># Close start tag</span>
+
+        <span class="c1"># Add content, if any.</span>
+        <span class="c1"># Properly align content depending on children nodes</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">content_dest</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;indentlvl&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">next_lvl</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">+=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="si">{}{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_indent</span><span class="p">(</span><span class="n">next_lvl</span><span class="p">),</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">])</span>
+
+        <span class="c1"># close tag if node has no children nodes</span>
+        <span class="k">if</span> <span class="n">is_element</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">void_elem</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;indentlvl&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">next_lvl</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/</span><span class="si">{}</span><span class="s1">&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_addOutput</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;indentlvl&#39;</span><span class="p">],</span> <span class="n">out</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_endNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;element&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;html5&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_addOutput</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;indentlvl&#39;</span><span class="p">],</span> <span class="s1">&#39;&lt;/html&gt;&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_addOutput</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;indentlvl&#39;</span><span class="p">],</span> <span class="s1">&#39;&lt;/</span><span class="si">{}</span><span class="s1">&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;element&#39;</span><span class="p">]))</span>
+
+    <span class="k">def</span> <span class="nf">_indent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indentlvl</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_indent</span><span class="p">)</span> <span class="o">*</span> <span class="n">indentlvl</span>
+
+    <span class="k">def</span> <span class="nf">_addOutput</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indentlvl</span><span class="p">,</span> <span class="n">contents</span><span class="p">):</span>
+        <span class="c1"># Do not print a newline if output_indent setting &lt;= -1 and</span>
+        <span class="c1"># unescape any special tokens</span>
+        <span class="n">newl</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_indent</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">contents</span> <span class="o">=</span> <span class="n">contents</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">:&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_indent</span><span class="p">(</span><span class="n">indentlvl</span><span class="p">)</span> <span class="o">+</span> <span class="n">contents</span> <span class="o">+</span> <span class="n">newl</span></div>
+
+
+<span class="c1">## Shortcut functions ########################################################</span>
+
+<div class="viewcode-block" id="string"><a class="viewcode-back" href="../index.html#tuhinga.string">[docs]</a><span class="k">def</span> <span class="nf">string</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">input_indent</span><span class="o">=</span><span class="n">DEFAULT_INPUT_INDENT</span><span class="p">,</span>
+           <span class="n">output_indent</span><span class="o">=</span><span class="n">DEFAULT_OUTPUT_INDENT</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Shortcut for parsing, lexing and mapping a document from a string&#39;&#39;&#39;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">Parser</span><span class="p">(</span><span class="n">input_indent</span><span class="o">=</span><span class="n">input_indent</span><span class="p">)</span><span class="o">.</span><span class="n">string</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">LexerXML</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">output_indent</span><span class="o">=</span><span class="n">output_indent</span><span class="p">)</span><span class="o">.</span><span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="file"><a class="viewcode-back" href="../index.html#tuhinga.file">[docs]</a><span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="n">filelocation</span><span class="p">,</span> <span class="n">input_indent</span><span class="o">=</span><span class="n">DEFAULT_INPUT_INDENT</span><span class="p">,</span>
+         <span class="n">output_indent</span><span class="o">=</span><span class="n">DEFAULT_OUTPUT_INDENT</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Shortcut for parsing, lexing and mapping a document from file&#39;&#39;&#39;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">Parser</span><span class="p">(</span><span class="n">input_indent</span><span class="o">=</span><span class="n">input_indent</span><span class="p">)</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">filelocation</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">LexerXML</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">output_indent</span><span class="o">=</span><span class="n">output_indent</span><span class="p">)</span><span class="o">.</span><span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="stdin"><a class="viewcode-back" href="../index.html#tuhinga.stdin">[docs]</a><span class="k">def</span> <span class="nf">stdin</span><span class="p">(</span><span class="n">input_indent</span><span class="o">=</span><span class="n">DEFAULT_INPUT_INDENT</span><span class="p">,</span>
+          <span class="n">output_indent</span><span class="o">=</span><span class="n">DEFAULT_OUTPUT_INDENT</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Shortcut for parsing, lexing and mapping from stdin/fileinput&#39;&#39;&#39;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">Parser</span><span class="p">(</span><span class="n">input_indent</span><span class="o">=</span><span class="n">input_indent</span><span class="p">)</span><span class="o">.</span><span class="n">fileinput</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">LexerXML</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">output_indent</span><span class="o">=</span><span class="n">output_indent</span><span class="p">)</span><span class="o">.</span><span class="n">output</span></div>
+
+<span class="c1">## When invoked as script, read files or stdin ###############################</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># print(file(&#39;examples/dev-test.tuh&#39;))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">stdin</span><span class="p">())</span>
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Bye&#39;</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">tuhinga 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014-2015, Benjamin Althues.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
+    </div>
+  </body>
+</html>
